@@ -103,7 +103,7 @@ export default function Dashboard() {
     },
     {
       id: "prediccion",
-      title: "Proyección 2100",
+      title: "Proyección por País",
       subtitle: "Modelado Predictivo",
       narrative: "Análisis de regresión que estima el tiempo necesario para alcanzar la paridad total bajo las tendencias actuales.",
       component: <ChartPrediccion />
