@@ -124,9 +124,9 @@ export default function Dashboard() {
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-6 pt-32 pb-12 flex flex-col gap-10">
+      <main className="max-w-7xl mx-auto px-6 pt-32 pb-12 flex flex-col gap-12">
         
-        {/* 1. SECCIÓN: FUNDAMENTOS */}
+        {/* 1. SECCIÓN: FUNDAMENTOS (LETRAS MÁS OSCURAS) */}
         <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {[
             { t: "Propósito", d: "Mapeamos el acceso a la riqueza en las 50 carreras con mejores salarios promedio en México.", i: Target, bgColor: "bg-stone-100", iconColor: "text-stone-600", accent: "border-stone-200" },
@@ -138,33 +138,37 @@ export default function Dashboard() {
                 <div className={`inline-flex items-center justify-center w-11 h-11 ${f.bgColor} ${f.iconColor} rounded-xl mb-4 shadow-sm group-hover:scale-110 transition-transform`}>
                   <f.i className="h-5 w-5" />
                 </div>
-                <h3 className="text-lg font-bold text-stone-900 mb-2 tracking-tight">{f.t}</h3>
-                <p className="text-sm text-stone-600 leading-relaxed font-medium">{f.d}</p>
+                {/* Título y Descripción más oscuros */}
+                <h3 className="text-lg font-bold text-slate-950 mb-2 tracking-tight">{f.t}</h3>
+                <p className="text-sm text-slate-800 leading-relaxed font-semibold">{f.d}</p>
               </div>
             </div>
           ))}
         </section>
 
-        {/* 2. SECCIÓN: KPIs (AHORA ANTES DE LAS GRÁFICAS) */}
+        {/* 2. SECCIÓN: KPIs (LETRAS MÁS OSCURAS) */}
         <section className="grid grid-cols-2 lg:grid-cols-4 gap-6">
           {kpiData.map((kpi) => (
             <Card key={kpi.title} className="bg-white shadow-sm border-stone-100 rounded-3xl p-4">
               <CardHeader className="p-0 pb-2 flex-row items-center justify-between space-y-0">
-                <CardTitle className="text-[11px] font-bold text-stone-300 uppercase tracking-wider">{kpi.title}</CardTitle>
+                {/* Título KPI más oscuro */}
+                <CardTitle className="text-[11px] font-bold text-slate-600 uppercase tracking-wider">{kpi.title}</CardTitle>
                 <kpi.icon className="h-4 w-4 text-stone-200" />
               </CardHeader>
               <CardContent className="p-0">
                 <div className="flex items-baseline gap-2">
-                  <p className="text-3xl font-bold text-stone-800 tracking-tighter">{kpi.value}</p>
+                  {/* Valor Principal más oscuro (Black) */}
+                  <p className="text-3xl font-black text-slate-950 tracking-tighter">{kpi.value}</p>
                   <span className={`text-xs font-bold ${kpi.trendPositive ? "text-[#14b8a6]" : "text-[#ca8a04]"}`}>{kpi.trend}</span>
                 </div>
-                <p className="text-[10px] text-stone-400 mt-1 font-medium">{kpi.description}</p>
+                {/* Descripción más oscura */}
+                <p className="text-[10px] text-slate-700 mt-1 font-semibold">{kpi.description}</p>
               </CardContent>
             </Card>
           ))}
         </section>
 
-        {/* 3. SECCIÓN: STORYTELLING INTERACTIVO (GRÁFICAS) */}
+        {/* 3. SECCIÓN: STORYTELLING INTERACTIVO (GRÁFICAS - ESTILO IMGEN) */}
         <section className="bg-white rounded-[2.5rem] flex flex-col md:flex-row overflow-hidden min-h-[600px] border border-stone-100 shadow-2xl shadow-stone-200/30 border-l-[16px] border-l-[#0f766e]">
           
           {/* Menú Lateral (Explorar Storyline) */}
@@ -234,8 +238,8 @@ export default function Dashboard() {
           ].map((chart, i) => (
             <Card key={i} className="rounded-[2rem] shadow-sm border-stone-50 p-6 bg-white">
               <CardHeader className="pb-6">
-                <CardTitle className="text-xl font-bold tracking-tight">{chart.t}</CardTitle>
-                <CardDescription className="text-sm font-medium">{chart.d}</CardDescription>
+                <CardTitle className="text-xl font-bold tracking-tight text-slate-950">{chart.t}</CardTitle>
+                <CardDescription className="text-sm font-semibold text-slate-700">{chart.d}</CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="h-72 w-full">
@@ -244,7 +248,7 @@ export default function Dashboard() {
                       <BarChart data={chart.data} layout="vertical" margin={{ left: 10, right: 30 }}>
                         <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f0f0f0" />
                         <XAxis type="number" hide />
-                        <YAxis dataKey="stage" type="category" tick={{fontSize: 11, fill: '#44403c', fontWeight: 600}} width={95} axisLine={false} tickLine={false} />
+                        <YAxis dataKey="stage" type="category" tick={{fontSize: 11, fill: '#1e293b', fontWeight: 600}} width={95} axisLine={false} tickLine={false} />
                         <Tooltip cursor={{fill: 'transparent'}} contentStyle={{borderRadius: '12px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)'}} />
                         <Legend wrapperStyle={{paddingTop: '20px', fontWeight: 700}} />
                         <Bar dataKey="women" name="Mujeres" stackId="a" fill="#ca8a04" barSize={22} />
@@ -253,8 +257,8 @@ export default function Dashboard() {
                     ) : (
                       <LineChart data={chart.data} margin={{ right: 20 }}>
                         <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f0f0f0" />
-                        <XAxis dataKey="year" tick={{fontSize: 11, fill: '#44403c', fontWeight: 600}} axisLine={false} tickLine={false} />
-                        <YAxis tick={{fontSize: 11, fill: '#44403c', fontWeight: 600}} axisLine={false} tickLine={false} tickFormatter={(v)=>`${v}%`} />
+                        <XAxis dataKey="year" tick={{fontSize: 11, fill: '#1e293b', fontWeight: 600}} axisLine={false} tickLine={false} />
+                        <YAxis tick={{fontSize: 11, fill: '#1e293b', fontWeight: 600}} axisLine={false} tickLine={false} tickFormatter={(v)=>`${v}%`} />
                         <Tooltip contentStyle={{borderRadius: '12px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)'}} />
                         <Legend wrapperStyle={{paddingTop: '20px', fontWeight: 700}} />
                         <Line type="monotone" dataKey="women" name="Mujeres" stroke="#ca8a04" strokeWidth={4} dot={{r: 5, fill: '#ca8a04'}} activeDot={{r: 7}} />
@@ -281,8 +285,8 @@ export default function Dashboard() {
             <TableBody>
               {careersData.map((item) => (
                 <TableRow key={item.rank} className="hover:bg-stone-50 border-b border-stone-50 transition-colors">
-                  <TableCell className="font-black text-stone-200 px-10 py-6 text-xl text-center">{item.rank}</TableCell>
-                  <TableCell className="font-bold text-stone-700 px-10 py-6 text-left">{item.career}</TableCell>
+                  <TableCell className="font-black text-slate-300 px-10 py-6 text-xl text-center">{item.rank}</TableCell>
+                  <TableCell className="font-bold text-slate-900 px-10 py-6 text-left">{item.career}</TableCell>
                   <TableCell className="px-10 py-6 text-center">
                     <span className={`px-4 py-2 rounded-full text-[11px] font-black ${parseInt(item.womenPercent) < 20 ? "bg-amber-50 text-[#ca8a04]" : "bg-teal-50 text-[#0f766e]"}`}>
                       {item.womenPercent}
