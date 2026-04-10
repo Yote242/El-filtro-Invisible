@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import ChartEgresoMujeres from '@/components/ChartEgresoMujeres';
 import ChartBrechaHistorica from '@/components/ChartBrechaHistorica';
 import ChartFiltro2022 from '@/components/ChartFiltro2022';
+import ChartPrediccion from '@/components/ChartPrediccion'; // El nuevo componente
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import {
@@ -82,7 +83,7 @@ export default function Dashboard() {
     {
       id: "brecha",
       title: "Brecha Persistente",
-      subtitle: "Análisis de Datos Históricos",
+      subtitle: "Análisis Histórico",
       narrative: "A pesar de los avances, la distancia en las carreras mejor pagadas se mantiene estática.",
       component: <ChartBrechaHistorica />
     },
@@ -99,13 +100,20 @@ export default function Dashboard() {
       subtitle: "Tendencias Recientes",
       narrative: "El mercado desplazó el talento femenino a un ritmo acelerado tras la pandemia.",
       component: <ChartFiltro2022 />
+    },
+    {
+      id: "prediccion",
+      title: "Proyección 2100",
+      subtitle: "Futuro del Mercado",
+      narrative: "Modelado predictivo sobre la paridad salarial y participación en las próximas décadas.",
+      component: <ChartPrediccion />
     }
   ];
 
   return (
     <div className="min-h-screen bg-[#f8f9fa] font-sans text-stone-900 selection:bg-[#14b8a6]/20">
       
-      {/* HEADER CON DISEÑO DE CARD FLOTANTE Y BORDE VERDE SUPERIOR */}
+      {/* HEADER */}
       <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-in-out border-t-[12px] border-t-[#0f766e] bg-white ${
         isScrolled ? "py-2 shadow-md" : "py-6 shadow-xl shadow-stone-200/40"
       }`}>
@@ -122,14 +130,7 @@ export default function Dashboard() {
                   El Filtro Invisible
                 </h1>
               </div>
-              {!isScrolled && <div className="h-8 w-px bg-stone-100 hidden md:block" />}
-              {!isScrolled && (
-                <p className="text-[11px] font-bold text-[#ca8a04] uppercase tracking-widest hidden md:block">
-                 Trabajo remunerado
-                </p>
-              )}
             </div>
-
             <p className="text-slate-800 text-xs font-bold uppercase tracking-widest hidden lg:block opacity-60">
               América Latina y el Caribe
             </p>
@@ -139,26 +140,7 @@ export default function Dashboard() {
 
       <main className="max-w-7xl mx-auto px-6 pt-44 pb-12 flex flex-col gap-12">
         
-        {/* 1. SECCIÓN: FUNDAMENTOS */}
-        <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {[
-            { t: "Propósito", d: "Mapeamos el acceso a la riqueza en las 50 carreras con mejores salarios promedio en México.", i: Target, bgColor: "bg-stone-50", iconColor: "text-stone-600", accent: "border-stone-100" },
-            { t: "Impacto Humano", d: "Evidencia clara para enfocar políticas de retención y acompañamiento en mandos medios y dirección.", i: Lightbulb, bgColor: "bg-amber-50/50", iconColor: "text-amber-600", accent: "border-amber-100/50" },
-            { t: "Metodología", d: "Cruce de microdatos del IMCO con modelos de Análisis de Supervivencia y tecnologías ágiles.", i: BarChart3, bgColor: "bg-teal-50/50", iconColor: "text-teal-600", accent: "border-teal-100/50" }
-          ].map((f, idx) => (
-            <div key={idx} className={`group relative bg-white p-6 rounded-3xl border ${f.accent} shadow-sm hover:shadow-md transition-all duration-300`}>
-              <div className="relative z-10">
-                <div className={`inline-flex items-center justify-center w-11 h-11 ${f.bgColor} ${f.iconColor} rounded-xl mb-4 shadow-sm group-hover:scale-110 transition-transform`}>
-                  <f.i className="h-5 w-5" />
-                </div>
-                <h3 className="text-lg font-bold text-slate-950 mb-2 tracking-tight">{f.t}</h3>
-                <p className="text-sm text-slate-800 leading-relaxed font-semibold">{f.d}</p>
-              </div>
-            </div>
-          ))}
-        </section>
-
-        {/* 2. SECCIÓN: KPIs */}
+        {/* KPIs */}
         <section className="grid grid-cols-2 lg:grid-cols-4 gap-6">
           {kpiData.map((kpi) => (
             <Card key={kpi.title} className="bg-white shadow-sm border-stone-100 rounded-3xl p-4">
@@ -177,59 +159,56 @@ export default function Dashboard() {
           ))}
         </section>
 
-        {/* 3. SECCIÓN: STORYTELLING INTERACTIVO */}
-        <section className="bg-white rounded-[2.5rem] flex flex-col md:flex-row overflow-hidden min-h-[600px] border border-stone-200 shadow-2xl shadow-stone-200/30 border-l-[16px] border-l-[#0f766e]">
-        {/* Menú Lateral */}
-<div className="w-full md:w-1/3 p-10 flex flex-col gap-4 bg-white border-r border-stone-50">
-  
-  {/* ENCABEZADO EDITORIAL (NO PARECE BOTÓN) */}
-  <div className="mb-10 pl-6 relative">
-    {/* Línea de acento sutil pero firme */}
-    <div className="absolute left-0 top-1 bottom-1 w-[3px] bg-[#0f766e] rounded-full" />
-    
-    
-    
-    <h4 className="text-[18px] font-bold text-[#0f766e] leading-snug tracking-tight max-w-[180px]">
-      Selecciona una etapa para visualizar el análisis
-    </h4>
-    
-    {/* Decoración horizontal mínima para romper la forma de "caja" */}
-    <div className="h-[3px] w-8 bg-[#0f766e] mt-4 opacity-100" />
-  </div>
-  
-  <nav className="flex flex-col gap-2">
-    {chartSections.map((tab) => (
-      <button
-        key={tab.id}
-        onClick={() => setActiveTab(tab.id)}
-        className={`group relative flex items-center gap-4 px-6 py-6 transition-all duration-500 rounded-2xl border ${
-          activeTab === tab.id 
-            ? "bg-white border-amber-100 shadow-[0_15px_45px_-10px_rgba(202,138,4,0.18)] translate-x-1" 
-            : "bg-transparent border-transparent hover:bg-stone-50/50"
-        }`}
-      >
-        <div className={`absolute left-0 w-1 h-6 rounded-r-full transition-all duration-300 ${
-          activeTab === tab.id ? "bg-[#ca8a04]" : "bg-transparent"
-        }`} />
-        <div className="flex flex-col items-start">
-          <span className={`text-base font-bold tracking-tight transition-colors ${
-            activeTab === tab.id ? "text-[#ca8a04]" : "text-stone-400 group-hover:text-stone-600"
-          }`}>
-            {tab.title}
-          </span>
-          <span className="text-[12px] font-medium text-stone-700 mt-0.5">{tab.subtitle}</span>
-        </div>
-        <ChevronRight className={`ml-auto h-4 w-4 transition-all ${
-          activeTab === tab.id ? "text-[#ca8a04] translate-x-0" : "text-stone-100 opacity-0 -translate-x-2"
-        }`} />
-      </button>
-    ))}
-  </nav>
-</div>
+        {/* STORYTELLING INTERACTIVO */}
+        <section className="bg-white rounded-[2.5rem] flex flex-col md:flex-row overflow-hidden min-h-[650px] border border-stone-100 shadow-2xl shadow-stone-200/30 border-l-[16px] border-l-[#0f766e]">
+          
+          {/* MENU LATERAL CORREGIDO */}
+          <div className="w-full md:w-1/3 p-10 flex flex-col gap-4 bg-white border-r border-stone-50">
+            <div className="mb-10 pl-6 relative">
+              <div className="absolute left-0 top-1 bottom-1 w-[3px] bg-stone-200 rounded-full" />
+              <span className="text-[10px] font-black text-[#0f766e] uppercase tracking-[0.3em] mb-2 block">
+                Exploración de datos
+              </span>
+              <h4 className="text-[18px] font-bold text-slate-900 leading-snug tracking-tight max-w-[180px]">
+                Selecciona una etapa para visualizar el filtro
+              </h4>
+              <div className="h-[2px] w-8 bg-[#ca8a04] mt-4 opacity-40" />
+            </div>
+            
+            <nav className="flex flex-col gap-2">
+              {chartSections.map((tab) => (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`group relative flex items-center gap-4 px-6 py-5 transition-all duration-500 rounded-2xl border ${
+                    activeTab === tab.id 
+                      ? "bg-white border-amber-100 shadow-[0_15px_45px_-10px_rgba(202,138,4,0.18)] translate-x-1" 
+                      : "bg-transparent border-transparent hover:bg-stone-50/50"
+                  }`}
+                >
+                  <div className={`absolute left-0 w-1 h-6 rounded-r-full transition-all duration-300 ${
+                    activeTab === tab.id ? "bg-[#ca8a04]" : "bg-transparent"
+                  }`} />
+                  <div className="flex flex-col items-start">
+                    <span className={`text-base font-bold tracking-tight transition-colors ${
+                      activeTab === tab.id ? "text-[#ca8a04]" : "text-stone-400 group-hover:text-stone-600"
+                    }`}>
+                      {tab.title}
+                    </span>
+                    <span className="text-[11px] font-medium text-stone-500 mt-0.5">{tab.subtitle}</span>
+                  </div>
+                  <ChevronRight className={`ml-auto h-4 w-4 transition-all ${
+                    activeTab === tab.id ? "text-[#ca8a04] translate-x-0" : "text-stone-100 opacity-0 -translate-x-2"
+                  }`} />
+                </button>
+              ))}
+            </nav>
+          </div>
 
+          {/* AREA DE CONTENIDO VISUAL */}
           <div className="w-full md:w-2/3 p-12 lg:p-16 bg-white">
             {chartSections.map((tab) => (
-              <div key={tab.id} className={activeTab === tab.id ? "block animate-in fade-in duration-700" : "hidden"}>
+              <div key={tab.id} className={activeTab === tab.id ? "block animate-in fade-in slide-in-from-bottom-4 duration-700" : "hidden"}>
                 <div className="flex flex-col mb-10">
                    <div className="h-1 w-10 bg-[#14b8a6] rounded-full mb-6"></div>
                    <h3 className="text-4xl font-bold text-slate-950 tracking-tight mb-4">{tab.title}</h3>
@@ -243,7 +222,7 @@ export default function Dashboard() {
           </div>
         </section>
 
-        {/* 4. SECCIÓN: GRÁFICAS DE SOPORTE */}
+        {/* TABLA Y SOPORTE */}
         <section className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {[
             { t: "Embudo de Deserción", d: "Trayectoria en sectores de alto valor.", data: funnelData, type: 'bar' },
@@ -285,7 +264,7 @@ export default function Dashboard() {
           ))}
         </section>
 
-        {/* 5. SECCIÓN: TABLA DE CARRERAS */}
+        {/* TABLA DE CARRERAS */}
         <Card className="rounded-[2.5rem] shadow-2xl shadow-stone-200/20 border-none overflow-hidden bg-white mb-10">
           <Table>
             <TableHeader className="bg-stone-900">
@@ -313,7 +292,7 @@ export default function Dashboard() {
 
       </main>
 
-      {/* FOOTER PERSONALIZADO */}
+      {/* FOOTER */}
       <footer className="bg-[#0f766e] py-14 text-center border-t border-white/10 mt-10">
         <div className="max-w-7xl mx-auto px-8">
           <p className="text-white text-[12px] font-black uppercase tracking-[0.4em] mb-3">
