@@ -5,6 +5,7 @@ import ChartEgresoMujeres from '@/components/ChartEgresoMujeres';
 import ChartBrechaHistorica from '@/components/ChartBrechaHistorica';
 import ChartFiltro2022 from '@/components/ChartFiltro2022';
 import ChartPrediccion from '@/components/ChartPrediccion'; 
+import ChartImpactoMujeres from '@/components/ChartImpactoMujeres'; 
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import {
@@ -23,7 +24,6 @@ import {
   Target,
   Lightbulb,
   BarChart3,
-  ChevronRight,
 } from "lucide-react"
 import {
   BarChart,
@@ -83,9 +83,16 @@ export default function Dashboard() {
     {
       id: "brecha",
       title: "Brecha Persistente",
-      subtitle: "Análisis de Datos Históricos",
+      subtitle: "Análisis Histórico",
       narrative: "A pesar de los avances, la distancia en las carreras mejor pagadas se mantiene estática.",
       component: <ChartBrechaHistorica />
+    },
+    {
+      id: "filtro",
+      title: "Impacto Regional",
+      subtitle: "Ingreso vs Egreso",
+      narrative: "El mercado desplazó el talento femenino a un ritmo acelerado tras la pandemia.",
+      component: <ChartFiltro2022 />
     },
     {
       id: "egreso",
@@ -95,17 +102,17 @@ export default function Dashboard() {
       component: <ChartEgresoMujeres />
     },
     {
-      id: "filtro",
-      title: "Impacto Post-2022",
-      subtitle: "Tendencias Recientes",
-      narrative: "El mercado desplazó el talento femenino a un ritmo acelerado tras la pandemia.",
-      component: <ChartFiltro2022 />
+      id: "impacto",
+      title: "¿Paga la educación? El retorno desigual del talento femenino.",
+      subtitle: "Retorno del Talento",
+      narrative: "Este análisis nos demuestra que la educación por sí sola no es la cura. Para que el retorno educativo sea justo, necesitamos políticas que acompañen el talento femenino en el mercado laboral remunerado, asegurando que cada año de esfuerzo en las aulas se refleje peso a peso en sus salarios.",
+      component: <ChartImpactoMujeres />
     },
     {
       id: "prediccion",
-      title: "Proyección por País",
-      subtitle: "Modelado Predictivo",
-      narrative: "Análisis de regresión que estima el tiempo necesario para alcanzar la paridad total bajo las tendencias actuales.",
+      title: "Proyección 2030",
+      subtitle: "Machine Learning",
+      narrative: "Modelado predictivo sobre la paridad salarial y participación en las próximas décadas.",
       component: <ChartPrediccion />
     }
   ];
@@ -113,15 +120,14 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen bg-[#f8f9fa] font-sans text-stone-900 selection:bg-[#14b8a6]/20">
       
-      {/* HEADER CON CARD FLOTANTE Y LETRAS AMARILLAS RECUPERADAS */}
+      {/* HEADER */}
       <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-in-out border-t-[12px] border-t-[#0f766e] bg-white ${
         isScrolled ? "py-2 shadow-md" : "py-6 shadow-xl shadow-stone-200/40"
       }`}>
-        <div className="max-w-7xl mx-auto px-8">
+        <div className="max-w-[1600px] mx-auto px-8">
           <div className="flex items-center justify-between">
-            {/* Card del Título */}
             <div className={`transition-all duration-500 bg-white border border-stone-100 rounded-2xl px-6 py-3 flex items-center gap-4 ${
-              !isScrolled ? "shadow-[0_10px_30px_-10px_rgba(15,118,110,0.12)] border-[#14b8a6]/10 translate-y-1" : "border-transparent"
+              !isScrolled ? "shadow-[0_10px_30px_-10px_rgba(15,118,110,0.12)] border-[#14b8a6]/10" : "border-transparent"
             }`}>
               <div className="flex flex-col">
                 <Badge className="bg-teal-50 text-teal-700 rounded-full px-2 py-0.5 text-[9px] font-bold border border-teal-100 mb-0.5 w-fit">
@@ -131,8 +137,6 @@ export default function Dashboard() {
                   El Filtro Invisible
                 </h1>
               </div>
-
-              {/* RECUPERACIÓN DE LETRAS AMARILLAS */}
               {!isScrolled && <div className="h-8 w-px bg-stone-100 hidden md:block" />}
               {!isScrolled && (
                 <p className="text-[11px] font-bold text-[#ca8a04] uppercase tracking-widest hidden md:block">
@@ -140,7 +144,6 @@ export default function Dashboard() {
                 </p>
               )}
             </div>
-
             <p className="text-slate-800 text-xs font-bold uppercase tracking-widest hidden lg:block opacity-60">
               América Latina y el Caribe
             </p>
@@ -148,57 +151,55 @@ export default function Dashboard() {
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-6 pt-44 pb-12 flex flex-col gap-12">
+      {/* AJUSTE: pt-40 para acercar el contenido al header */}
+      <main className="max-w-[1600px] mx-auto px-6 pt-40 pb-12 flex flex-col gap-10">
         
-        {/* 1. SECCIÓN: FUNDAMENTOS (PROPUESTA) */}
-        <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {/* CARDS DE PROPÓSITO */}
+        <section className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {[
-            { t: "Propósito", d: "Mapeamos el acceso a la riqueza en las 50 carreras con mejores salarios promedio en México.", i: Target, bgColor: "bg-stone-50", iconColor: "text-stone-600", accent: "border-stone-100" },
-            { t: "Impacto Humano", d: "Evidencia clara para enfocar políticas de retención y acompañamiento en mandos medios y dirección.", i: Lightbulb, bgColor: "bg-amber-50/50", iconColor: "text-amber-600", accent: "border-amber-100/50" },
-            { t: "Metodología", d: "Cruce de microdatos del IMCO con modelos de Análisis de Supervivencia y tecnologías ágiles.", i: BarChart3, bgColor: "bg-teal-50/50", iconColor: "text-teal-600", accent: "border-teal-100/50" }
+            { t: "Propósito", d: "Imaginar un futuro donde el talento femenino impulse la economía.", i: Target, bgColor: "bg-stone-50", iconColor: "text-stone-900", accent: "border-stone-100" },
+            { t: "Impacto Humano", d: "Transformar la vida de las mujeres para crear bienestar común.", i: Lightbulb, bgColor: "bg-amber-50/50", iconColor: "text-amber-600", accent: "border-amber-100/50" },
+            { t: "Metodología", d: "Convertimos datos oficiales en predicciones fáciles de entender.", i: BarChart3, bgColor: "bg-teal-50/50", iconColor: "text-teal-600", accent: "border-teal-100/50" }
           ].map((f, idx) => (
-            <div key={idx} className={`group relative bg-white p-6 rounded-3xl border ${f.accent} shadow-sm hover:shadow-md transition-all duration-300`}>
-              <div className="relative z-10">
-                <div className={`inline-flex items-center justify-center w-11 h-11 ${f.bgColor} ${f.iconColor} rounded-xl mb-4 shadow-sm group-hover:scale-110 transition-transform`}>
-                  <f.i className="h-5 w-5" />
+            <div key={idx} className={`group relative bg-white p-8 rounded-[2rem] border-2 ${f.accent} shadow-sm hover:shadow-xl transition-all duration-500`}>
+                <div className={`inline-flex items-center justify-center w-14 h-14 ${f.bgColor} ${f.iconColor} rounded-2xl mb-6 shadow-sm group-hover:scale-110 transition-transform`}>
+                  <f.i className="h-7 w-7" />
                 </div>
-                <h3 className="text-lg font-bold text-slate-950 mb-2 tracking-tight">{f.t}</h3>
+                <h3 className="text-xl font-bold text-slate-950 mb-3 tracking-tight">{f.t}</h3>
                 <p className="text-sm text-slate-800 leading-relaxed font-semibold">{f.d}</p>
-              </div>
             </div>
           ))}
         </section>
 
-        {/* 2. SECCIÓN: KPIs */}
-        <section className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+        {/* KPIs */}
+        <section className="grid grid-cols-2 lg:grid-cols-4 gap-8">
           {kpiData.map((kpi) => (
-            <Card key={kpi.title} className="bg-white shadow-sm border-stone-100 rounded-3xl p-4">
-              <CardHeader className="p-0 pb-2 flex-row items-center justify-between space-y-0">
+            <Card key={kpi.title} className="bg-white shadow-sm border-stone-100 rounded-[2rem] p-6 hover:shadow-md transition-shadow">
+              <CardHeader className="p-0 pb-4 flex-row items-center justify-between space-y-0">
                 <CardTitle className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">{kpi.title}</CardTitle>
-                <kpi.icon className="h-4 w-4 text-stone-200" />
+                <kpi.icon className="h-5 w-5 text-stone-200" />
               </CardHeader>
               <CardContent className="p-0">
                 <div className="flex items-baseline gap-2">
-                  <p className="text-3xl font-black text-slate-950 tracking-tighter">{kpi.value}</p>
+                  <p className="text-4xl font-black text-slate-950 tracking-tighter">{kpi.value}</p>
                   <span className={`text-xs font-bold ${kpi.trendPositive ? "text-[#14b8a6]" : "text-[#ca8a04]"}`}>{kpi.trend}</span>
                 </div>
-                <p className="text-[10px] text-slate-600 mt-1 font-semibold">{kpi.description}</p>
+                <p className="text-[11px] text-slate-600 mt-2 font-semibold">{kpi.description}</p>
               </CardContent>
             </Card>
           ))}
         </section>
 
-        {/* 3. SECCIÓN: STORYTELLING INTERACTIVO */}
-        <section className="bg-white rounded-[2.5rem] flex flex-col md:flex-row overflow-hidden min-h-[600px] border border-stone-100 shadow-2xl shadow-stone-200/30 border-l-[16px] border-l-[#0f766e]">
+        {/* DASHBOARD PRINCIPAL */}
+        <section className="bg-white rounded-[3rem] flex flex-col md:flex-row overflow-hidden min-h-[800px] border border-stone-100 shadow-2xl shadow-stone-200/30 border-l-[20px] border-l-[#0f766e]">
           
-          <div className="w-full md:w-1/3 p-10 flex flex-col gap-4 bg-white border-r border-stone-50">
+          {/* SIDEBAR NAVEGACIÓN */}
+          <div className="w-full md:w-[22%] p-10 flex flex-col gap-4 bg-white border-r border-stone-50">
             <div className="mb-10 pl-6 relative">
-              <div className="absolute left-0 top-1 bottom-1 w-[3px] bg-[#14b8a6] rounded-full" />
-              
-              <h4 className="text-[18px] font-bold text-slate-900 leading-snug tracking-tight max-w-[180px]">
-                Selecciona una etapa para visualizar el análisis
-              </h4>
-              <div className="h-[3px] w-8 bg-[#14b8a6] mt-4 opacity-100" />
+              <div className="absolute left-0 top-1 bottom-1 w-[3px] bg-[#0f766e] rounded-full" />
+              <span className="text-[10px] font-black text-[#0f766e] uppercase tracking-[0.3em] mb-2 block">Exploración</span>
+              <h4 className="text-[18px] font-bold text-slate-900 leading-snug tracking-tight">Selecciona una etapa</h4>
+              <div className="h-[5px] w-8 bg-[#0f766e] mt-4 opacity-150" />
             </div>
             
             <nav className="flex flex-col gap-2">
@@ -215,71 +216,72 @@ export default function Dashboard() {
                   <div className={`absolute left-0 w-1 h-6 rounded-r-full transition-all duration-300 ${
                     activeTab === tab.id ? "bg-[#ca8a04]" : "bg-transparent"
                   }`} />
-                  <div className="flex flex-col items-start">
-                    <span className={`text-base font-bold tracking-tight transition-colors ${
+                  <div className="flex flex-col items-start overflow-hidden">
+                    <span className={`text-[14px] font-bold tracking-tight truncate w-full ${
                       activeTab === tab.id ? "text-[#ca8a04]" : "text-stone-400 group-hover:text-stone-600"
                     }`}>
                       {tab.title}
                     </span>
-                    <span className="text-[11px] font-medium text-stone-500 mt-0.5">{tab.subtitle}</span>
+                    <span className="text-[10px] font-medium text-stone-500 mt-0.5">{tab.subtitle}</span>
                   </div>
-                  <ChevronRight className={`ml-auto h-4 w-4 transition-all ${
-                    activeTab === tab.id ? "text-[#ca8a04] translate-x-0" : "text-stone-100 opacity-0 -translate-x-2"
-                  }`} />
                 </button>
               ))}
             </nav>
           </div>
 
-          <div className="w-full md:w-2/3 p-12 lg:p-16 bg-white">
+          {/* CONTENEDOR DE GRÁFICAS */}
+          <div className="w-full md:w-[78%] p-10 lg:p-14 bg-white flex flex-col">
             {chartSections.map((tab) => (
-              <div key={tab.id} className={activeTab === tab.id ? "block animate-in fade-in duration-700" : "hidden"}>
-                <div className="flex flex-col mb-10">
-                   <div className="h-1 w-10 bg-[#14b8a6] rounded-full mb-6"></div>
-                   <h3 className="text-4xl font-bold text-slate-950 tracking-tight mb-4">{tab.title}</h3>
-                   <p className="text-lg text-slate-500 leading-relaxed max-w-xl font-medium">{tab.narrative}</p>
+              <div key={tab.id} className={activeTab === tab.id ? "flex flex-col h-full animate-in fade-in zoom-in-95 duration-700" : "hidden"}>
+                
+                {/* NARRATIVA: Espacio mb-6 para pegar el texto a la gráfica */}
+                <div className="flex flex-col mb-6">
+                   <div className="h-1.5 w-12 bg-[#14b8a6] rounded-full mb-4"></div>
+                   <h3 className="text-4xl font-black text-slate-950 tracking-tight mb-2">{tab.title}</h3>
+                   <p className="text-lg text-slate-500 leading-relaxed max-w-3xl font-medium">{tab.narrative}</p>
                 </div>
-                <div className="bg-white rounded-[2rem] p-8 lg:p-10 border border-stone-50 shadow-[0_20px_60px_-20px_rgba(0,0,0,0.04)] min-h-[400px]">
-                  {tab.component}
+
+                {/* CONTENEDOR GRÁFICA: p-8 para optimizar espacio */}
+                <div className="bg-white rounded-[2.5rem] p-8 border border-stone-50 shadow-sm flex-grow min-h-[550px] flex items-center justify-center overflow-visible">
+                  <div className="w-full h-full">
+                    {tab.component}
+                  </div>
                 </div>
               </div>
             ))}
           </div>
         </section>
 
-        {/* 4. SECCIÓN: GRÁFICAS DE SOPORTE */}
-        <section className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {/* SECCIONES ADICIONALES (EMBUDO Y SUPERVIVENCIA) */}
+        <section className="grid grid-cols-1 lg:grid-cols-2 gap-10">
           {[
             { t: "Embudo de Deserción", d: "Trayectoria en sectores de alto valor.", data: funnelData, type: 'bar' },
             { t: "Supervivencia Laboral", d: "Retención estimada a 15 años.", data: retentionData, type: 'line' }
           ].map((chart, i) => (
-            <Card key={i} className="rounded-[2rem] shadow-sm border-stone-50 p-6 bg-white">
-              <CardHeader className="pb-6">
-                <CardTitle className="text-xl font-bold tracking-tight text-slate-950">{chart.t}</CardTitle>
+            <Card key={i} className="rounded-[2.5rem] shadow-sm border-stone-50 p-8 bg-white">
+              <CardHeader className="pb-8 p-0">
+                <CardTitle className="text-2xl font-bold tracking-tight text-slate-950">{chart.t}</CardTitle>
                 <CardDescription className="text-sm font-semibold text-slate-700">{chart.d}</CardDescription>
               </CardHeader>
-              <CardContent>
-                <div className="h-72 w-full">
+              <CardContent className="p-0">
+                <div className="h-80 w-full">
                   <ResponsiveContainer width="100%" height="100%">
                     {chart.type === 'bar' ? (
                       <BarChart data={chart.data} layout="vertical" margin={{ left: 10, right: 30 }}>
-                        <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f0f0f0" />
                         <XAxis type="number" hide />
-                        <YAxis dataKey="stage" type="category" tick={{fontSize: 11, fill: '#1e293b', fontWeight: 600}} width={95} axisLine={false} tickLine={false} />
+                        <YAxis dataKey="stage" type="category" tick={{fontSize: 12, fill: '#1e293b', fontWeight: 600}} width={100} axisLine={false} tickLine={false} />
                         <Tooltip cursor={{fill: 'transparent'}} contentStyle={{borderRadius: '12px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)'}} />
-                        <Legend wrapperStyle={{paddingTop: '20px', fontWeight: 700}} />
-                        <Bar dataKey="women" name="Mujeres" stackId="a" fill="#ca8a04" barSize={22} />
-                        <Bar dataKey="men" name="Hombres" stackId="a" fill="#14b8a6" radius={[0, 4, 4, 0]} barSize={22} />
+                        <Bar dataKey="women" name="Mujeres" stackId="a" fill="#ca8a04" barSize={25} />
+                        <Bar dataKey="men" name="Hombres" stackId="a" fill="#14b8a6" radius={[0, 6, 6, 0]} barSize={25} />
                       </BarChart>
                     ) : (
-                      <LineChart data={chart.data} margin={{ right: 20 }}>
+                      <LineChart data={chart.data}>
                         <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f0f0f0" />
-                        <XAxis dataKey="year" tick={{fontSize: 11, fill: '#1e293b', fontWeight: 600}} axisLine={false} tickLine={false} />
-                        <YAxis tick={{fontSize: 11, fill: '#1e293b', fontWeight: 600}} axisLine={false} tickLine={false} tickFormatter={(v)=>`${v}%`} />
+                        <XAxis dataKey="year" tick={{fontSize: 12, fill: '#1e293b', fontWeight: 600}} axisLine={false} tickLine={false} />
+                        <YAxis tick={{fontSize: 12, fill: '#1e293b', fontWeight: 600}} axisLine={false} tickLine={false} tickFormatter={(v)=>`${v}%`} />
                         <Tooltip contentStyle={{borderRadius: '12px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)'}} />
-                        <Legend wrapperStyle={{paddingTop: '20px', fontWeight: 700}} />
-                        <Line type="monotone" dataKey="women" name="Mujeres" stroke="#ca8a04" strokeWidth={4} dot={{r: 5, fill: '#ca8a04'}} activeDot={{r: 7}} />
-                        <Line type="monotone" dataKey="men" name="Hombres" stroke="#14b8a6" strokeWidth={4} dot={{r: 5, fill: '#14b8a6'}} activeDot={{r: 7}} />
+                        <Line type="monotone" dataKey="women" name="Mujeres" stroke="#ca8a04" strokeWidth={4} dot={{r: 6}} />
+                        <Line type="monotone" dataKey="men" name="Hombres" stroke="#14b8a6" strokeWidth={4} dot={{r: 6}} />
                       </LineChart>
                     )}
                   </ResponsiveContainer>
@@ -289,23 +291,23 @@ export default function Dashboard() {
           ))}
         </section>
 
-        {/* 5. SECCIÓN: TABLA DE CARRERAS */}
-        <Card className="rounded-[2.5rem] shadow-2xl shadow-stone-200/20 border-none overflow-hidden bg-white mb-10">
+        {/* TABLA DE CARRERAS */}
+        <Card className="rounded-[3rem] shadow-2xl shadow-stone-200/20 border-none overflow-hidden bg-white mb-10">
           <Table>
             <TableHeader className="bg-stone-900">
               <TableRow className="hover:bg-stone-900 border-none">
-                <TableHead className="font-bold h-16 px-10 text-white uppercase text-[10px] tracking-widest text-center">Rank</TableHead>
-                <TableHead className="font-bold h-16 px-10 text-white uppercase text-[10px] tracking-widest text-left">Carrera Profesional</TableHead>
-                <TableHead className="font-bold h-16 px-10 text-white uppercase text-[10px] tracking-widest text-center">% Mujeres</TableHead>
+                <TableHead className="font-bold h-20 px-12 text-white uppercase text-[10px] tracking-widest text-center">Rank</TableHead>
+                <TableHead className="font-bold h-20 px-12 text-white uppercase text-[10px] tracking-widest text-left">Carrera Profesional</TableHead>
+                <TableHead className="font-bold h-20 px-12 text-white uppercase text-[10px] tracking-widest text-center">% Mujeres</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {careersData.map((item) => (
                 <TableRow key={item.rank} className="hover:bg-stone-50 border-b border-stone-100 transition-colors">
-                  <TableCell className="font-black text-slate-300 px-10 py-6 text-xl text-center">{item.rank}</TableCell>
-                  <TableCell className="font-bold text-slate-900 px-10 py-6 text-left">{item.career}</TableCell>
-                  <TableCell className="px-10 py-6 text-center">
-                    <span className={`px-4 py-2 rounded-full text-[11px] font-black ${parseInt(item.womenPercent) < 20 ? "bg-amber-50 text-[#ca8a04]" : "bg-teal-50 text-[#0f766e]"}`}>
+                  <TableCell className="font-black text-slate-300 px-12 py-8 text-2xl text-center">{item.rank}</TableCell>
+                  <TableCell className="font-bold text-slate-900 px-12 py-8 text-lg text-left">{item.career}</TableCell>
+                  <TableCell className="px-12 py-8 text-center">
+                    <span className={`px-6 py-2 rounded-full text-[12px] font-black ${parseInt(item.womenPercent) < 20 ? "bg-amber-50 text-[#ca8a04]" : "bg-teal-50 text-[#0f766e]"}`}>
                       {item.womenPercent}
                     </span>
                   </TableCell>
@@ -318,15 +320,11 @@ export default function Dashboard() {
       </main>
 
       {/* FOOTER */}
-      <footer className="bg-[#0f766e] py-14 text-center border-t border-white/10 mt-10">
+      <footer className="bg-[#0f766e] py-16 text-center border-t border-white/10 mt-10">
         <div className="max-w-7xl mx-auto px-8">
-          <p className="text-white text-[12px] font-black uppercase tracking-[0.4em] mb-3">
-            Universidad Politécnica de Puebla
-          </p>
-          <div className="h-px w-16 bg-[#ca8a04] mx-auto mb-4" />
-          <p className="text-teal-100/60 text-[10px] font-bold tracking-widest uppercase">
-            2026 • DAT4CCIÓN
-          </p>
+          <p className="text-white text-[14px] font-black uppercase tracking-[0.4em] mb-4">Universidad Politécnica de Puebla</p>
+          <div className="h-px w-20 bg-[#ca8a04] mx-auto mb-6 opacity-60" />
+          <p className="text-teal-100/60 text-[11px] font-bold tracking-widest uppercase">2026 • DAT4CCIÓN</p>
         </div>
       </footer>
     </div>
