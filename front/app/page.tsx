@@ -38,7 +38,7 @@ import {
   CartesianGrid,
 } from "recharts"
 
-// --- DATA MOCKUPS ---
+// --- DATA ---
 const funnelData = [
   { stage: "Matrícula", women: 48, men: 52 },
   { stage: "Egreso", women: 45, men: 55 },
@@ -113,12 +113,13 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen bg-[#f8f9fa] font-sans text-stone-900 selection:bg-[#14b8a6]/20">
       
-      {/* HEADER UNIFICADO */}
+      {/* HEADER CON CARD FLOTANTE Y LETRAS AMARILLAS RECUPERADAS */}
       <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-in-out border-t-[12px] border-t-[#0f766e] bg-white ${
         isScrolled ? "py-2 shadow-md" : "py-6 shadow-xl shadow-stone-200/40"
       }`}>
         <div className="max-w-7xl mx-auto px-8">
           <div className="flex items-center justify-between">
+            {/* Card del Título */}
             <div className={`transition-all duration-500 bg-white border border-stone-100 rounded-2xl px-6 py-3 flex items-center gap-4 ${
               !isScrolled ? "shadow-[0_10px_30px_-10px_rgba(15,118,110,0.12)] border-[#14b8a6]/10 translate-y-1" : "border-transparent"
             }`}>
@@ -130,7 +131,16 @@ export default function Dashboard() {
                   El Filtro Invisible
                 </h1>
               </div>
+
+              {/* RECUPERACIÓN DE LETRAS AMARILLAS */}
+              {!isScrolled && <div className="h-8 w-px bg-stone-100 hidden md:block" />}
+              {!isScrolled && (
+                <p className="text-[11px] font-bold text-[#ca8a04] uppercase tracking-widest hidden md:block">
+                  Trabajo remunerado
+                </p>
+              )}
             </div>
+
             <p className="text-slate-800 text-xs font-bold uppercase tracking-widest hidden lg:block opacity-60">
               América Latina y el Caribe
             </p>
@@ -178,14 +188,13 @@ export default function Dashboard() {
           ))}
         </section>
 
-        {/* 3. SECCIÓN: STORYTELLING INTERACTIVO (ESTILO IMAGEN) */}
+        {/* 3. SECCIÓN: STORYTELLING INTERACTIVO */}
         <section className="bg-white rounded-[2.5rem] flex flex-col md:flex-row overflow-hidden min-h-[600px] border border-stone-100 shadow-2xl shadow-stone-200/30 border-l-[16px] border-l-[#0f766e]">
           
-          {/* Menú Lateral Editorial */}
           <div className="w-full md:w-1/3 p-10 flex flex-col gap-4 bg-white border-r border-stone-50">
             <div className="mb-10 pl-6 relative">
               <div className="absolute left-0 top-1 bottom-1 w-[3px] bg-[#14b8a6] rounded-full" />
-             
+              
               <h4 className="text-[18px] font-bold text-slate-900 leading-snug tracking-tight max-w-[180px]">
                 Selecciona una etapa para visualizar el análisis
               </h4>
@@ -222,7 +231,6 @@ export default function Dashboard() {
             </nav>
           </div>
 
-          {/* Área de Visualización */}
           <div className="w-full md:w-2/3 p-12 lg:p-16 bg-white">
             {chartSections.map((tab) => (
               <div key={tab.id} className={activeTab === tab.id ? "block animate-in fade-in duration-700" : "hidden"}>
@@ -293,7 +301,7 @@ export default function Dashboard() {
             </TableHeader>
             <TableBody>
               {careersData.map((item) => (
-                <TableRow key={item.rank} className="hover:bg-stone-50 border-b border-stone-50 transition-colors">
+                <TableRow key={item.rank} className="hover:bg-stone-50 border-b border-stone-100 transition-colors">
                   <TableCell className="font-black text-slate-300 px-10 py-6 text-xl text-center">{item.rank}</TableCell>
                   <TableCell className="font-bold text-slate-900 px-10 py-6 text-left">{item.career}</TableCell>
                   <TableCell className="px-10 py-6 text-center">
