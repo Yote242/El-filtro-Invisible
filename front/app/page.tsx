@@ -73,9 +73,14 @@ export default function Dashboard() {
   const [activeTab, setActiveTab] = useState("brecha");
   const [isScrolled, setIsScrolled] = useState(false);
 
+  // Lógica para detectar el scroll sin causar bucles de redimensionamiento
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      if (window.scrollY > 80) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
@@ -105,90 +110,94 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen bg-stone-50 font-sans selection:bg-[#14b8a6]/20 selection:text-stone-900">
       
-      {/* Header Responsivo y Retráctil */}
-      <header className={`bg-white border-b border-stone-200 sticky top-0 z-50 transition-all duration-300 ${
-          isScrolled ? "py-2 sm:py-3 shadow-md" : "py-6 sm:py-8"
+      {/* HEADER FIXED: Eliminamos el bug de salto usando fixed en lugar de sticky */}
+      <header className={`bg-white/95 backdrop-blur-sm border-b border-stone-200 fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-in-out ${
+          isScrolled ? "py-2 shadow-md" : "py-6 sm:py-10"
         }`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 sm:gap-4">
             
             <div className="flex flex-col">
-              {/* Badge - Oculto en móvil si hay scroll para maximizar espacio */}
               <div className={`transition-all duration-300 overflow-hidden ${isScrolled ? "max-h-0 opacity-0" : "max-h-10 opacity-100 mb-2"}`}>
                 <Badge className="bg-[#14b8a6]/10 text-[#0f766e] rounded-full px-3 py-1 text-[10px] sm:text-xs font-bold border border-[#14b8a6]/20 uppercase">
                   Datatón ONU Mujeres 2026
                 </Badge>
               </div>
               
-              <h1 className={`font-bold text-stone-900 tracking-tight transition-all duration-300 ${isScrolled ? "text-lg sm:text-xl" : "text-2xl sm:text-4xl"}`}>
+              <h1 className={`font-black text-stone-900 tracking-tighter transition-all duration-500 ${isScrolled ? "text-lg sm:text-2xl" : "text-3xl sm:text-5xl"}`}>
                 El Filtro Invisible
               </h1>
             </div>
 
-            {/* Texto descriptivo adaptable */}
-            <div className={`transition-all duration-300 transition-opacity ${isScrolled ? "opacity-100" : "opacity-100"}`}>
-              <p className={`text-stone-600 font-medium transition-all duration-300 ${
-                isScrolled ? "text-[10px] sm:text-xs max-w-[150px] sm:max-w-xs sm:text-right" : "text-sm sm:text-lg max-w-xl"
-              }`}>
-                {isScrolled 
-                  ? "Análisis de Fuga de Talento Femenino" 
-                  : "Fuga de Talento Femenino en las Carreras Mejor Pagadas de México."
-                }
-              </p>
-            </div>
+            <p className={`text-stone-600 font-bold transition-all duration-500 ${
+              isScrolled ? "text-[10px] sm:text-sm max-w-[200px] sm:max-w-xs sm:text-right" : "text-sm sm:text-xl max-w-xl"
+            }`}>
+              {isScrolled 
+                ? "Análisis de Fuga de Talento Femenino" 
+                : "Fuga de Talento Femenino en las Carreras Mejor Pagadas de México."
+              }
+            </p>
 
           </div>
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex flex-col gap-12">
+      {/* MAIN: Añadimos un padding-top (pt) generoso para compensar el header fixed */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-44 sm:pt-64 pb-10 flex flex-col gap-16">
         
         {/* KPIs Section */}
-        <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {kpiData.map((kpi) => (
-            <Card key={kpi.title} className="bg-white border-stone-100 shadow-sm rounded-2xl">
+            <Card key={kpi.title} className="bg-white border-stone-100 shadow-sm rounded-3xl overflow-hidden">
               <CardHeader className="pb-2">
                 <div className="flex items-center justify-between">
-                  <kpi.icon className="h-5 w-5 text-[#14b8a6]" />
-                  <span className={`text-xs font-bold px-2.5 py-1 rounded-full ${kpi.trendPositive ? "bg-[#14b8a6]/10 text-[#0f766e]" : "bg-[#ca8a04]/10 text-[#854d0e]"}`}>
+                  <div className="p-2 bg-stone-50 rounded-xl">
+                    <kpi.icon className="h-6 w-6 text-[#14b8a6]" />
+                  </div>
+                  <span className={`text-xs font-black px-3 py-1 rounded-full ${kpi.trendPositive ? "bg-[#14b8a6]/10 text-[#0f766e]" : "bg-[#ca8a04]/10 text-[#854d0e]"}`}>
                     {kpi.trend}
                   </span>
                 </div>
-                <CardTitle className="text-sm font-bold text-stone-500 mt-3 uppercase tracking-wider">{kpi.title}</CardTitle>
+                <CardTitle className="text-xs font-black text-stone-400 mt-4 uppercase tracking-[0.15em]">{kpi.title}</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-3xl font-black text-stone-900">{kpi.value}</p>
-                <CardDescription className="text-stone-400 text-xs mt-1">{kpi.description}</CardDescription>
+                <p className="text-4xl font-black text-stone-900 tracking-tighter">{kpi.value}</p>
+                <CardDescription className="text-stone-500 text-sm mt-2 font-medium">{kpi.description}</CardDescription>
               </CardContent>
             </Card>
           ))}
         </section>
 
-        {/* Storytelling Interactivo */}
-        <section className="bg-white border border-stone-200 shadow-xl flex flex-col md:flex-row rounded-3xl overflow-hidden min-h-[600px]">
-          <div className="w-full md:w-1/3 bg-[#0f766e] p-8 flex flex-col gap-3">
-            <h3 className="text-xs font-black text-teal-100 uppercase tracking-[0.2em] mb-6 opacity-60">Exploración Narrativa</h3>
+        {/* Storytelling Interactivo con Menú en Contraste */}
+        <section className="bg-white border border-stone-200 shadow-2xl flex flex-col md:flex-row rounded-[2.5rem] overflow-hidden min-h-[650px]">
+          {/* Sidebar Oscuro */}
+          <div className="w-full md:w-1/3 bg-[#0f766e] p-10 flex flex-col gap-4">
+            <h3 className="text-xs font-black text-teal-100 uppercase tracking-[0.3em] mb-8 opacity-50">Navegación</h3>
             {chartSections.map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`text-left px-6 py-5 transition-all duration-300 font-bold text-sm rounded-2xl border ${
+                className={`text-left px-8 py-6 transition-all duration-300 font-bold text-base rounded-[1.5rem] border-2 ${
                   activeTab === tab.id
-                    ? "bg-[#ca8a04] text-white border-[#ca8a04] shadow-lg translate-x-2"
-                    : "text-teal-50 hover:bg-white/10 border-transparent"
+                    ? "bg-[#ca8a04] text-white border-[#ca8a04] shadow-xl translate-x-3 scale-105"
+                    : "text-teal-50 hover:bg-white/5 border-transparent hover:translate-x-1"
                 }`}
               >
                 {tab.title}
               </button>
             ))}
+            <div className="mt-auto pt-10 border-t border-teal-800">
+              <p className="text-[10px] text-teal-300 font-bold uppercase tracking-widest opacity-40 italic">Insight Engine v2.0</p>
+            </div>
           </div>
 
-          <div className="w-full md:w-2/3 p-8 lg:p-14 bg-white">
+          {/* Área de Gráficas */}
+          <div className="w-full md:w-2/3 p-10 lg:p-16 bg-white">
             {chartSections.map((tab) => (
-              <div key={tab.id} className={activeTab === tab.id ? "block animate-in slide-in-from-right-4 fade-in duration-500" : "hidden"}>
-                <h3 className="text-3xl sm:text-4xl font-black text-stone-950 mb-4 tracking-tighter">{tab.title}</h3>
-                <p className="text-stone-700 text-lg sm:text-xl leading-relaxed mb-10 font-medium">{tab.narrative}</p>
-                <div className="bg-stone-50 rounded-3xl p-4 sm:p-6 border border-stone-100 shadow-inner">
+              <div key={tab.id} className={activeTab === tab.id ? "block animate-in slide-in-from-bottom-4 fade-in duration-700" : "hidden"}>
+                <h3 className="text-4xl sm:text-5xl font-black text-stone-950 mb-6 tracking-tighter">{tab.title}</h3>
+                <p className="text-stone-700 text-xl sm:text-2xl leading-snug mb-12 font-medium max-w-2xl">{tab.narrative}</p>
+                <div className="bg-stone-50/50 rounded-[2rem] p-6 sm:p-10 border border-stone-100 shadow-inner">
                   {tab.component}
                 </div>
               </div>
@@ -196,46 +205,48 @@ export default function Dashboard() {
           </div>
         </section>
 
-        {/* Gráficas Base */}
-        <section className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <Card className="rounded-3xl border-stone-100 shadow-sm overflow-hidden">
-            <CardHeader className="bg-stone-50/50 border-b border-stone-100">
-              <CardTitle className="text-stone-950 font-black">El Embudo de la Deserción</CardTitle>
-              <CardDescription className="text-stone-700 font-medium italic">Trayectoria profesional en sectores de alto valor.</CardDescription>
+        {/* Gráficas Secundarias con Rótulos Oscuros */}
+        <section className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+          {/* Funnel Chart */}
+          <Card className="rounded-[2.5rem] border-stone-100 shadow-xl overflow-hidden bg-white">
+            <CardHeader className="bg-stone-50/50 p-8 border-b border-stone-100">
+              <CardTitle className="text-stone-950 font-black text-2xl tracking-tight">El Embudo de la Deserción</CardTitle>
+              <CardDescription className="text-stone-700 font-bold italic text-base">Trayectoria profesional en sectores de alto valor.</CardDescription>
             </CardHeader>
-            <CardContent className="pt-8 px-2 sm:px-6">
-              <div className="h-80">
+            <CardContent className="p-8">
+              <div className="h-96">
                 <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={funnelData} layout="vertical" margin={{ left: 0, right: 40 }}>
+                  <BarChart data={funnelData} layout="vertical" margin={{ left: 20, right: 40 }}>
                     <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e7e5e4" />
-                    <XAxis type="number" stroke="#44403c" tick={{fill: '#44403c', fontWeight: 600, fontSize: 10}} />
-                    <YAxis type="category" dataKey="stage" stroke="#44403c" tick={{fill: '#44403c', fontWeight: 600, fontSize: 10}} width={100} />
-                    <Tooltip cursor={{fill: '#f5f5f4'}} contentStyle={{borderRadius: '15px'}} />
-                    <Legend wrapperStyle={{paddingTop: '20px', color: '#1c1917', fontWeight: 700, fontSize: 12}} />
-                    <Bar dataKey="women" name="Mujeres" stackId="a" fill="#ca8a04" />
-                    <Bar dataKey="men" name="Hombres" stackId="a" fill="#14b8a6" radius={[0, 10, 10, 0]} />
+                    <XAxis type="number" stroke="#1c1917" tick={{fill: '#44403c', fontWeight: 700, fontSize: 12}} axisLine={false} />
+                    <YAxis type="category" dataKey="stage" stroke="#1c1917" tick={{fill: '#44403c', fontWeight: 700, fontSize: 11}} width={120} axisLine={false} />
+                    <Tooltip cursor={{fill: '#f5f5f4'}} contentStyle={{borderRadius: '20px', border: 'none', boxShadow: '0 20px 25px -5px rgb(0 0 0 / 0.1)'}} />
+                    <Legend wrapperStyle={{paddingTop: '30px', color: '#1c1917', fontWeight: 800}} />
+                    <Bar dataKey="women" name="Mujeres" stackId="a" fill="#ca8a04" barSize={35} />
+                    <Bar dataKey="men" name="Hombres" stackId="a" fill="#14b8a6" radius={[0, 10, 10, 0]} barSize={35} />
                   </BarChart>
                 </ResponsiveContainer>
               </div>
             </CardContent>
           </Card>
 
-          <Card className="rounded-3xl border-stone-100 shadow-sm overflow-hidden">
-            <CardHeader className="bg-stone-50/50 border-b border-stone-100">
-              <CardTitle className="text-stone-950 font-black">Supervivencia Laboral</CardTitle>
-              <CardDescription className="text-stone-700 font-medium italic">Retención de talento en carreras Top 50 a 15 años.</CardDescription>
+          {/* Retention Chart */}
+          <Card className="rounded-[2.5rem] border-stone-100 shadow-xl overflow-hidden bg-white">
+            <CardHeader className="bg-stone-50/50 p-8 border-b border-stone-100">
+              <CardTitle className="text-stone-950 font-black text-2xl tracking-tight">Supervivencia Laboral</CardTitle>
+              <CardDescription className="text-stone-700 font-bold italic text-base">Retención de talento en carreras Top 50 a 15 años.</CardDescription>
             </CardHeader>
-            <CardContent className="pt-8 px-2 sm:px-6">
-              <div className="h-80">
+            <CardContent className="p-8">
+              <div className="h-96">
                 <ResponsiveContainer width="100%" height="100%">
                   <LineChart data={retentionData}>
                     <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e7e5e4" />
-                    <XAxis dataKey="year" stroke="#44403c" tick={{fill: '#44403c', fontWeight: 600, fontSize: 10}} />
-                    <YAxis stroke="#44403c" tick={{fill: '#44403c', fontWeight: 600, fontSize: 10}} />
-                    <Tooltip contentStyle={{borderRadius: '15px'}} />
-                    <Legend wrapperStyle={{paddingTop: '20px', color: '#1c1917', fontWeight: 700, fontSize: 12}} />
-                    <Line type="monotone" dataKey="women" name="Mujeres" stroke="#ca8a04" strokeWidth={4} dot={{r: 6, fill: "#ca8a04"}} />
-                    <Line type="monotone" dataKey="men" name="Hombres" stroke="#14b8a6" strokeWidth={4} dot={{r: 6, fill: "#14b8a6"}} />
+                    <XAxis dataKey="year" stroke="#1c1917" tick={{fill: '#44403c', fontWeight: 700}} axisLine={false} />
+                    <YAxis stroke="#1c1917" tick={{fill: '#44403c', fontWeight: 700}} axisLine={false} />
+                    <Tooltip contentStyle={{borderRadius: '20px', border: 'none', boxShadow: '0 20px 25px -5px rgb(0 0 0 / 0.1)'}} />
+                    <Legend wrapperStyle={{paddingTop: '30px', color: '#1c1917', fontWeight: 800}} />
+                    <Line type="monotone" dataKey="women" name="Mujeres" stroke="#ca8a04" strokeWidth={5} dot={{r: 8, fill: "#ca8a04", strokeWidth: 3, stroke: "#fff"}} activeDot={{r: 10}} />
+                    <Line type="monotone" dataKey="men" name="Hombres" stroke="#14b8a6" strokeWidth={5} dot={{r: 8, fill: "#14b8a6", strokeWidth: 3, stroke: "#fff"}} activeDot={{r: 10}} />
                   </LineChart>
                 </ResponsiveContainer>
               </div>
@@ -243,41 +254,54 @@ export default function Dashboard() {
           </Card>
         </section>
 
-        {/* Tabla Final */}
-        <div className="overflow-x-auto rounded-3xl border border-stone-100 shadow-sm">
-          <Table>
-            <TableHeader className="bg-stone-900">
-              <TableRow className="hover:bg-stone-900 border-none">
-                <TableHead className="text-white font-bold uppercase text-[10px] sm:text-xs">Rank</TableHead>
-                <TableHead className="text-white font-bold uppercase text-[10px] sm:text-xs">Carrera</TableHead>
-                <TableHead className="text-white font-bold uppercase text-[10px] sm:text-xs">Salario</TableHead>
-                <TableHead className="text-white font-bold uppercase text-[10px] sm:text-xs">% Mujeres</TableHead>
-                <TableHead className="text-white font-bold uppercase text-[10px] sm:text-xs">Brecha</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody className="bg-white">
-              {careersData.map((item) => (
-                <TableRow key={item.rank} className="border-b border-stone-50 hover:bg-stone-50/80 transition-colors text-[11px] sm:text-sm">
-                  <TableCell className="font-bold text-stone-400">{item.rank}</TableCell>
-                  <TableCell className="font-bold text-stone-800">{item.career}</TableCell>
-                  <TableCell className="font-mono font-bold text-[#0f766e]">{item.salary}</TableCell>
-                  <TableCell>
-                    <span className={`px-2 sm:px-3 py-1 rounded-full text-[9px] sm:text-xs font-bold ${parseInt(item.womenPercent) < 20 ? "bg-[#ca8a04]/10 text-[#ca8a04]" : "bg-[#14b8a6]/10 text-[#0f766e]"}`}>
-                      {item.womenPercent}
-                    </span>
-                  </TableCell>
-                  <TableCell className="font-bold text-stone-600">{item.gap}</TableCell>
+        {/* Tabla de Carreras */}
+        <div className="bg-white rounded-[2.5rem] border border-stone-100 shadow-2xl overflow-hidden">
+          <div className="p-8 bg-stone-900 flex justify-between items-center">
+             <h3 className="text-white font-black text-xl uppercase tracking-widest">Directorio de Empleabilidad Top 50</h3>
+             <Badge className="bg-[#ca8a04] text-white border-none px-4">Actualizado 2026</Badge>
+          </div>
+          <div className="overflow-x-auto">
+            <Table>
+              <TableHeader className="bg-stone-50">
+                <TableRow className="border-none">
+                  <TableHead className="text-stone-900 font-black uppercase text-xs p-6">Rank</TableHead>
+                  <TableHead className="text-stone-900 font-black uppercase text-xs p-6">Carrera Profesional</TableHead>
+                  <TableHead className="text-stone-900 font-black uppercase text-xs p-6">Salario Promedio</TableHead>
+                  <TableHead className="text-stone-900 font-black uppercase text-xs p-6">% Representación Femenina</TableHead>
+                  <TableHead className="text-stone-900 font-black uppercase text-xs p-6">Brecha de Ingresos</TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHeader>
+              <TableBody>
+                {careersData.map((item) => (
+                  <TableRow key={item.rank} className="border-b border-stone-50 hover:bg-stone-50/50 transition-all duration-300 group">
+                    <TableCell className="font-black text-stone-300 text-lg p-6 group-hover:text-[#ca8a04]">{item.rank}</TableCell>
+                    <TableCell className="font-bold text-stone-800 p-6">{item.career}</TableCell>
+                    <TableCell className="font-mono font-black text-[#0f766e] text-lg p-6">{item.salary}</TableCell>
+                    <TableCell className="p-6">
+                      <span className={`px-4 py-2 rounded-xl text-xs font-black shadow-sm ${parseInt(item.womenPercent) < 20 ? "bg-[#ca8a04]/10 text-[#ca8a04]" : "bg-[#14b8a6]/10 text-[#0f766e]"}`}>
+                        {item.womenPercent}
+                      </span>
+                    </TableCell>
+                    <TableCell className="font-black text-stone-600 p-6">{item.gap}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
         </div>
 
       </main>
 
-      <footer className="bg-stone-900 py-12 text-center">
-        <p className="text-stone-500 text-[10px] font-bold uppercase tracking-[0.3em]">Fuentes: IMCO & ENOE 2026</p>
-        <p className="text-stone-300 mt-2 font-black italic text-sm">MÉXICO DATA-DRIVEN JUSTICE</p>
+      <footer className="bg-stone-950 py-20 text-center border-t border-stone-800">
+        <div className="max-w-4xl mx-auto px-4">
+          <p className="text-stone-500 text-xs font-black uppercase tracking-[0.5em] mb-6">Metodología Basada en IMCO & ENOE</p>
+          <div className="flex justify-center gap-8 mb-10 opacity-30">
+             <div className="h-8 w-8 bg-stone-500 rounded-full"></div>
+             <div className="h-8 w-8 bg-stone-500 rounded-full"></div>
+             <div className="h-8 w-8 bg-stone-500 rounded-full"></div>
+          </div>
+          <p className="text-stone-200 text-2xl font-black italic tracking-tighter">DAT4CCIÓN: MÉXICO DATA-DRIVEN JUSTICE 2026</p>
+        </div>
       </footer>
     </div>
   )
