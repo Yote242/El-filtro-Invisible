@@ -126,12 +126,50 @@ export default function Dashboard() {
 
       <main className="max-w-7xl mx-auto px-6 pt-32 pb-12 flex flex-col gap-10">
         
-        {/* STORYTELLING INTERACTIVO - RÉPLICA DE LA IMAGEN */}
+        {/* 1. SECCIÓN: FUNDAMENTOS */}
+        <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {[
+            { t: "Propósito", d: "Mapeamos el acceso a la riqueza en las 50 carreras con mejores salarios promedio en México.", i: Target, bgColor: "bg-stone-100", iconColor: "text-stone-600", accent: "border-stone-200" },
+            { t: "Impacto Humano", d: "Evidencia clara para enfocar políticas de retención y acompañamiento en mandos medios y dirección.", i: Lightbulb, bgColor: "bg-amber-50", iconColor: "text-amber-600", accent: "border-amber-200" },
+            { t: "Metodología", d: "Cruce de microdatos del IMCO con modelos de Análisis de Supervivencia y tecnologías ágiles.", i: BarChart3, bgColor: "bg-teal-50", iconColor: "text-teal-600", accent: "border-teal-200" }
+          ].map((f, idx) => (
+            <div key={idx} className={`group relative bg-white p-6 rounded-3xl border ${f.accent} shadow-sm hover:shadow-md transition-all duration-300`}>
+              <div className="relative z-10">
+                <div className={`inline-flex items-center justify-center w-11 h-11 ${f.bgColor} ${f.iconColor} rounded-xl mb-4 shadow-sm group-hover:scale-110 transition-transform`}>
+                  <f.i className="h-5 w-5" />
+                </div>
+                <h3 className="text-lg font-bold text-stone-900 mb-2 tracking-tight">{f.t}</h3>
+                <p className="text-sm text-stone-600 leading-relaxed font-medium">{f.d}</p>
+              </div>
+            </div>
+          ))}
+        </section>
+
+        {/* 2. SECCIÓN: KPIs (AHORA ANTES DE LAS GRÁFICAS) */}
+        <section className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+          {kpiData.map((kpi) => (
+            <Card key={kpi.title} className="bg-white shadow-sm border-stone-100 rounded-3xl p-4">
+              <CardHeader className="p-0 pb-2 flex-row items-center justify-between space-y-0">
+                <CardTitle className="text-[11px] font-bold text-stone-300 uppercase tracking-wider">{kpi.title}</CardTitle>
+                <kpi.icon className="h-4 w-4 text-stone-200" />
+              </CardHeader>
+              <CardContent className="p-0">
+                <div className="flex items-baseline gap-2">
+                  <p className="text-3xl font-bold text-stone-800 tracking-tighter">{kpi.value}</p>
+                  <span className={`text-xs font-bold ${kpi.trendPositive ? "text-[#14b8a6]" : "text-[#ca8a04]"}`}>{kpi.trend}</span>
+                </div>
+                <p className="text-[10px] text-stone-400 mt-1 font-medium">{kpi.description}</p>
+              </CardContent>
+            </Card>
+          ))}
+        </section>
+
+        {/* 3. SECCIÓN: STORYTELLING INTERACTIVO (GRÁFICAS) */}
         <section className="bg-white rounded-[2.5rem] flex flex-col md:flex-row overflow-hidden min-h-[600px] border border-stone-100 shadow-2xl shadow-stone-200/30 border-l-[16px] border-l-[#0f766e]">
           
-          {/* Menú Lateral (Sección izquierda con borde verde integrado) */}
-          <div className="w-full md:w-1/3 p-10 flex flex-col gap-4 bg-white">
-            <div className="mb-8 pl-2">
+          {/* Menú Lateral (Explorar Storyline) */}
+          <div className="w-full md:w-1/3 p-10 flex flex-col gap-4 bg-white border-r border-stone-50">
+            <div className="mb-8">
               <span className="text-[10px] font-black text-stone-300 uppercase tracking-[0.3em]">Explorar Storyline</span>
             </div>
             
@@ -146,22 +184,17 @@ export default function Dashboard() {
                       : "bg-transparent border-transparent hover:bg-stone-50/50"
                   }`}
                 >
-                  {/* Indicador vertical de pestaña activa */}
                   <div className={`absolute left-0 w-1 h-6 rounded-r-full transition-all duration-300 ${
                     activeTab === tab.id ? "bg-[#ca8a04]" : "bg-transparent"
                   }`} />
-
                   <div className="flex flex-col items-start">
                     <span className={`text-base font-bold tracking-tight transition-colors ${
                       activeTab === tab.id ? "text-[#ca8a04]" : "text-stone-400 group-hover:text-stone-600"
                     }`}>
                       {tab.title}
                     </span>
-                    <span className="text-[11px] font-medium text-stone-300 mt-0.5">
-                      {tab.subtitle}
-                    </span>
+                    <span className="text-[11px] font-medium text-stone-300 mt-0.5">{tab.subtitle}</span>
                   </div>
-                  
                   <ChevronRight className={`ml-auto h-4 w-4 transition-all ${
                     activeTab === tab.id ? "text-[#ca8a04] translate-x-0" : "text-stone-100 opacity-0 -translate-x-2"
                   }`} />
@@ -169,27 +202,22 @@ export default function Dashboard() {
               ))}
             </nav>
             
-            {/* Texto informativo inferior idéntico a la imagen */}
             <div className="mt-auto p-4 bg-[#f1fcfb] rounded-2xl border border-[#e6f7f5] text-center">
-              <p className="text-[10px] text-[#0f766e] font-bold uppercase tracking-widest opacity-60">
-                Selecciona una etapa para visualizar el filtro
+              <p className="text-[10px] text-[#0f766e] font-bold uppercase tracking-widest opacity-60 leading-relaxed">
+                Selecciona una etapa para <br /> visualizar el filtro
               </p>
             </div>
           </div>
 
-          {/* Área de Visualización (Sección derecha) */}
-          <div className="w-full md:w-2/3 p-12 lg:p-16 bg-white border-l border-stone-50">
+          {/* Área de Visualización */}
+          <div className="w-full md:w-2/3 p-12 lg:p-16 bg-white">
             {chartSections.map((tab) => (
               <div key={tab.id} className={activeTab === tab.id ? "block animate-in fade-in duration-700" : "hidden"}>
                 <div className="flex flex-col mb-10">
                    <div className="h-1 w-10 bg-[#14b8a6] rounded-full mb-6"></div>
                    <h3 className="text-4xl font-bold text-stone-900 tracking-tight mb-4">{tab.title}</h3>
-                   <p className="text-lg text-stone-400 leading-relaxed max-w-xl font-medium">
-                     {tab.narrative}
-                   </p>
+                   <p className="text-lg text-stone-400 leading-relaxed max-w-xl font-medium">{tab.narrative}</p>
                 </div>
-                
-                {/* Contenedor de la gráfica con el estilo de la imagen */}
                 <div className="bg-white rounded-[2rem] p-8 lg:p-10 border border-stone-50 shadow-[0_20px_60px_-20px_rgba(0,0,0,0.04)] min-h-[400px]">
                   {tab.component}
                 </div>
@@ -198,37 +226,63 @@ export default function Dashboard() {
           </div>
         </section>
 
-        {/* KPIs y Tabla (manteniendo el estilo limpio) */}
-        <section className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-          {kpiData.map((kpi) => (
-            <Card key={kpi.title} className="bg-white shadow-sm border-stone-50 rounded-3xl p-2">
-              <CardHeader className="pb-1">
-                <CardTitle className="text-[11px] font-bold text-stone-300 uppercase tracking-wider">{kpi.title}</CardTitle>
+        {/* 4. SECCIÓN: GRÁFICAS DE SOPORTE */}
+        <section className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {[
+            { t: "Embudo de Deserción", d: "Trayectoria en sectores de alto valor.", data: funnelData, type: 'bar' },
+            { t: "Supervivencia Laboral", d: "Retención estimada a 15 años.", data: retentionData, type: 'line' }
+          ].map((chart, i) => (
+            <Card key={i} className="rounded-[2rem] shadow-sm border-stone-50 p-6 bg-white">
+              <CardHeader className="pb-6">
+                <CardTitle className="text-xl font-bold tracking-tight">{chart.t}</CardTitle>
+                <CardDescription className="text-sm font-medium">{chart.d}</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="flex items-baseline gap-2 text-stone-800">
-                  <p className="text-2xl font-bold">{kpi.value}</p>
-                  <span className={`text-xs font-bold ${kpi.trendPositive ? "text-[#14b8a6]" : "text-[#ca8a04]"}`}>{kpi.trend}</span>
+                <div className="h-72 w-full">
+                  <ResponsiveContainer width="100%" height="100%">
+                    {chart.type === 'bar' ? (
+                      <BarChart data={chart.data} layout="vertical" margin={{ left: 10, right: 30 }}>
+                        <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f0f0f0" />
+                        <XAxis type="number" hide />
+                        <YAxis dataKey="stage" type="category" tick={{fontSize: 11, fill: '#44403c', fontWeight: 600}} width={95} axisLine={false} tickLine={false} />
+                        <Tooltip cursor={{fill: 'transparent'}} contentStyle={{borderRadius: '12px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)'}} />
+                        <Legend wrapperStyle={{paddingTop: '20px', fontWeight: 700}} />
+                        <Bar dataKey="women" name="Mujeres" stackId="a" fill="#ca8a04" barSize={22} />
+                        <Bar dataKey="men" name="Hombres" stackId="a" fill="#14b8a6" radius={[0, 4, 4, 0]} barSize={22} />
+                      </BarChart>
+                    ) : (
+                      <LineChart data={chart.data} margin={{ right: 20 }}>
+                        <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f0f0f0" />
+                        <XAxis dataKey="year" tick={{fontSize: 11, fill: '#44403c', fontWeight: 600}} axisLine={false} tickLine={false} />
+                        <YAxis tick={{fontSize: 11, fill: '#44403c', fontWeight: 600}} axisLine={false} tickLine={false} tickFormatter={(v)=>`${v}%`} />
+                        <Tooltip contentStyle={{borderRadius: '12px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)'}} />
+                        <Legend wrapperStyle={{paddingTop: '20px', fontWeight: 700}} />
+                        <Line type="monotone" dataKey="women" name="Mujeres" stroke="#ca8a04" strokeWidth={4} dot={{r: 5, fill: '#ca8a04'}} activeDot={{r: 7}} />
+                        <Line type="monotone" dataKey="men" name="Hombres" stroke="#14b8a6" strokeWidth={4} dot={{r: 5, fill: '#14b8a6'}} activeDot={{r: 7}} />
+                      </LineChart>
+                    )}
+                  </ResponsiveContainer>
                 </div>
               </CardContent>
             </Card>
           ))}
         </section>
 
-        <Card className="rounded-[2.5rem] shadow-2xl shadow-stone-200/20 border-none overflow-hidden bg-white">
+        {/* 5. SECCIÓN: TABLA DE CARRERAS */}
+        <Card className="rounded-[2.5rem] shadow-2xl shadow-stone-200/20 border-none overflow-hidden bg-white mb-10">
           <Table>
             <TableHeader className="bg-stone-900">
               <TableRow className="hover:bg-stone-900 border-none">
                 <TableHead className="font-bold h-16 px-10 text-white uppercase text-[10px] tracking-widest text-center">Rank</TableHead>
-                <TableHead className="font-bold h-16 px-10 text-white uppercase text-[10px] tracking-widest">Carrera Profesional</TableHead>
+                <TableHead className="font-bold h-16 px-10 text-white uppercase text-[10px] tracking-widest text-left">Carrera Profesional</TableHead>
                 <TableHead className="font-bold h-16 px-10 text-white uppercase text-[10px] tracking-widest text-center">% Mujeres</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {careersData.slice(0, 5).map((item) => (
+              {careersData.map((item) => (
                 <TableRow key={item.rank} className="hover:bg-stone-50 border-b border-stone-50 transition-colors">
                   <TableCell className="font-black text-stone-200 px-10 py-6 text-xl text-center">{item.rank}</TableCell>
-                  <TableCell className="font-bold text-stone-700 px-10 py-6">{item.career}</TableCell>
+                  <TableCell className="font-bold text-stone-700 px-10 py-6 text-left">{item.career}</TableCell>
                   <TableCell className="px-10 py-6 text-center">
                     <span className={`px-4 py-2 rounded-full text-[11px] font-black ${parseInt(item.womenPercent) < 20 ? "bg-amber-50 text-[#ca8a04]" : "bg-teal-50 text-[#0f766e]"}`}>
                       {item.womenPercent}
@@ -242,8 +296,8 @@ export default function Dashboard() {
 
       </main>
 
-      <footer className="py-12 text-center border-t border-stone-50">
-        <p className="text-[10px] text-stone-300 font-bold uppercase tracking-[0.4em]">IMCO & ENOE 2026 • DAT4CCIÓN</p>
+      <footer className="py-12 text-center border-t border-stone-100 bg-white">
+        <p className="text-[10px] text-stone-400 font-bold uppercase tracking-[0.4em]">IMCO & ENOE 2026 • DAT4CCIÓN</p>
       </footer>
     </div>
   )
