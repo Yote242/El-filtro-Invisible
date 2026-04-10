@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import ChartEgresoMujeres from '@/components/ChartEgresoMujeres';
 import ChartBrechaHistorica from '@/components/ChartBrechaHistorica';
 import ChartFiltro2022 from '@/components/ChartFiltro2022';
-import ChartPrediccion from '@/components/ChartPrediccion'; // El nuevo componente
+import ChartPrediccion from '@/components/ChartPrediccion'; 
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import {
@@ -38,7 +38,7 @@ import {
   CartesianGrid,
 } from "recharts"
 
-// --- DATA ---
+// --- DATA MOCKUPS ---
 const funnelData = [
   { stage: "Matrícula", women: 48, men: 52 },
   { stage: "Egreso", women: 45, men: 55 },
@@ -83,7 +83,7 @@ export default function Dashboard() {
     {
       id: "brecha",
       title: "Brecha Persistente",
-      subtitle: "Análisis Histórico",
+      subtitle: "Análisis de Datos Históricos",
       narrative: "A pesar de los avances, la distancia en las carreras mejor pagadas se mantiene estática.",
       component: <ChartBrechaHistorica />
     },
@@ -104,8 +104,8 @@ export default function Dashboard() {
     {
       id: "prediccion",
       title: "Proyección 2100",
-      subtitle: "Futuro del Mercado",
-      narrative: "Modelado predictivo sobre la paridad salarial y participación en las próximas décadas.",
+      subtitle: "Modelado Predictivo",
+      narrative: "Análisis de regresión que estima el tiempo necesario para alcanzar la paridad total bajo las tendencias actuales.",
       component: <ChartPrediccion />
     }
   ];
@@ -113,7 +113,7 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen bg-[#f8f9fa] font-sans text-stone-900 selection:bg-[#14b8a6]/20">
       
-      {/* HEADER */}
+      {/* HEADER UNIFICADO */}
       <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-in-out border-t-[12px] border-t-[#0f766e] bg-white ${
         isScrolled ? "py-2 shadow-md" : "py-6 shadow-xl shadow-stone-200/40"
       }`}>
@@ -140,7 +140,26 @@ export default function Dashboard() {
 
       <main className="max-w-7xl mx-auto px-6 pt-44 pb-12 flex flex-col gap-12">
         
-        {/* KPIs */}
+        {/* 1. SECCIÓN: FUNDAMENTOS (PROPUESTA) */}
+        <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {[
+            { t: "Propósito", d: "Mapeamos el acceso a la riqueza en las 50 carreras con mejores salarios promedio en México.", i: Target, bgColor: "bg-stone-50", iconColor: "text-stone-600", accent: "border-stone-100" },
+            { t: "Impacto Humano", d: "Evidencia clara para enfocar políticas de retención y acompañamiento en mandos medios y dirección.", i: Lightbulb, bgColor: "bg-amber-50/50", iconColor: "text-amber-600", accent: "border-amber-100/50" },
+            { t: "Metodología", d: "Cruce de microdatos del IMCO con modelos de Análisis de Supervivencia y tecnologías ágiles.", i: BarChart3, bgColor: "bg-teal-50/50", iconColor: "text-teal-600", accent: "border-teal-100/50" }
+          ].map((f, idx) => (
+            <div key={idx} className={`group relative bg-white p-6 rounded-3xl border ${f.accent} shadow-sm hover:shadow-md transition-all duration-300`}>
+              <div className="relative z-10">
+                <div className={`inline-flex items-center justify-center w-11 h-11 ${f.bgColor} ${f.iconColor} rounded-xl mb-4 shadow-sm group-hover:scale-110 transition-transform`}>
+                  <f.i className="h-5 w-5" />
+                </div>
+                <h3 className="text-lg font-bold text-slate-950 mb-2 tracking-tight">{f.t}</h3>
+                <p className="text-sm text-slate-800 leading-relaxed font-semibold">{f.d}</p>
+              </div>
+            </div>
+          ))}
+        </section>
+
+        {/* 2. SECCIÓN: KPIs */}
         <section className="grid grid-cols-2 lg:grid-cols-4 gap-6">
           {kpiData.map((kpi) => (
             <Card key={kpi.title} className="bg-white shadow-sm border-stone-100 rounded-3xl p-4">
@@ -159,20 +178,18 @@ export default function Dashboard() {
           ))}
         </section>
 
-        {/* STORYTELLING INTERACTIVO */}
-        <section className="bg-white rounded-[2.5rem] flex flex-col md:flex-row overflow-hidden min-h-[650px] border border-stone-100 shadow-2xl shadow-stone-200/30 border-l-[16px] border-l-[#0f766e]">
+        {/* 3. SECCIÓN: STORYTELLING INTERACTIVO (ESTILO IMAGEN) */}
+        <section className="bg-white rounded-[2.5rem] flex flex-col md:flex-row overflow-hidden min-h-[600px] border border-stone-100 shadow-2xl shadow-stone-200/30 border-l-[16px] border-l-[#0f766e]">
           
-          {/* MENU LATERAL CORREGIDO */}
+          {/* Menú Lateral Editorial */}
           <div className="w-full md:w-1/3 p-10 flex flex-col gap-4 bg-white border-r border-stone-50">
             <div className="mb-10 pl-6 relative">
-              <div className="absolute left-0 top-1 bottom-1 w-[3px] bg-stone-200 rounded-full" />
-              <span className="text-[10px] font-black text-[#0f766e] uppercase tracking-[0.3em] mb-2 block">
-                Exploración de datos
-              </span>
+              <div className="absolute left-0 top-1 bottom-1 w-[3px] bg-[#14b8a6] rounded-full" />
+             
               <h4 className="text-[18px] font-bold text-slate-900 leading-snug tracking-tight max-w-[180px]">
-                Selecciona una etapa para visualizar el filtro
+                Selecciona una etapa para visualizar el análisis
               </h4>
-              <div className="h-[2px] w-8 bg-[#ca8a04] mt-4 opacity-40" />
+              <div className="h-[3px] w-8 bg-[#14b8a6] mt-4 opacity-100" />
             </div>
             
             <nav className="flex flex-col gap-2">
@@ -205,10 +222,10 @@ export default function Dashboard() {
             </nav>
           </div>
 
-          {/* AREA DE CONTENIDO VISUAL */}
+          {/* Área de Visualización */}
           <div className="w-full md:w-2/3 p-12 lg:p-16 bg-white">
             {chartSections.map((tab) => (
-              <div key={tab.id} className={activeTab === tab.id ? "block animate-in fade-in slide-in-from-bottom-4 duration-700" : "hidden"}>
+              <div key={tab.id} className={activeTab === tab.id ? "block animate-in fade-in duration-700" : "hidden"}>
                 <div className="flex flex-col mb-10">
                    <div className="h-1 w-10 bg-[#14b8a6] rounded-full mb-6"></div>
                    <h3 className="text-4xl font-bold text-slate-950 tracking-tight mb-4">{tab.title}</h3>
@@ -222,7 +239,7 @@ export default function Dashboard() {
           </div>
         </section>
 
-        {/* TABLA Y SOPORTE */}
+        {/* 4. SECCIÓN: GRÁFICAS DE SOPORTE */}
         <section className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {[
             { t: "Embudo de Deserción", d: "Trayectoria en sectores de alto valor.", data: funnelData, type: 'bar' },
@@ -264,7 +281,7 @@ export default function Dashboard() {
           ))}
         </section>
 
-        {/* TABLA DE CARRERAS */}
+        {/* 5. SECCIÓN: TABLA DE CARRERAS */}
         <Card className="rounded-[2.5rem] shadow-2xl shadow-stone-200/20 border-none overflow-hidden bg-white mb-10">
           <Table>
             <TableHeader className="bg-stone-900">
@@ -276,7 +293,7 @@ export default function Dashboard() {
             </TableHeader>
             <TableBody>
               {careersData.map((item) => (
-                <TableRow key={item.rank} className="hover:bg-stone-50 border-b border-stone-100 transition-colors">
+                <TableRow key={item.rank} className="hover:bg-stone-50 border-b border-stone-50 transition-colors">
                   <TableCell className="font-black text-slate-300 px-10 py-6 text-xl text-center">{item.rank}</TableCell>
                   <TableCell className="font-bold text-slate-900 px-10 py-6 text-left">{item.career}</TableCell>
                   <TableCell className="px-10 py-6 text-center">
