@@ -33,6 +33,12 @@
 
 ---
 
+## Equipo de Trabajo
+* **•	Gudelia Pilar Pérez Conde
+* **•	Gerardo Saucedo Pérez
+* **•	Jorge Eduardo Berber Carretero
+* •	Luis Fernando Romero Coyotecatl
+
 ## Estructura del Proyecto
 
 ```text
