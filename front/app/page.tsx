@@ -25,11 +25,9 @@ import {
   Target,
   Lightbulb,
   BarChart3,
-  ChevronLeft,
-  ChevronRight
+  Download
 } from "lucide-react"
 
-// --- INTERFACES PARA TYPESCRIPT (Esto quita las líneas rojas) ---
 interface PaisData {
   Pais: string;
   Anio: number | string;
@@ -41,8 +39,6 @@ export default function Dashboard() {
   const [activeTab, setActiveTab] = useState("brecha");
   const [isScrolled, setIsScrolled] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
-  
-  // Definimos que el estado es un arreglo de PaisData
   const [tableData, setTableData] = useState<PaisData[]>([]);
 
   useEffect(() => {
@@ -64,12 +60,63 @@ export default function Dashboard() {
     ? tableData.filter(item => item.Pais === selectedCountry)
     : tableData;
 
+  // FUNCIÓN PARA DESCARGAR CSV
+  const downloadCSV = () => {
+    const headers = ["Rank", "Pais", "Anio", "Matricula_Mujeres"];
+    const rows = filteredData.map((item, index) => [
+      index + 1,
+      item.Pais,
+      item.Anio,
+      `${item.Matricula_Mujeres}%`
+    ]);
+
+    const csvContent = [
+      headers.join(","),
+      ...rows.map(e => e.join(","))
+    ].join("\n");
+
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", `reporte_filtro_invisible_${selectedCountry || 'latam'}.csv`);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   const chartSections = [
-    { id: "brecha", title: "La Ilusión del Progreso:Años de estancamiento.", narrative: "El tiempo pasa, la brecha permanece. Si las políticas de inclusión actuales estuvieran funcionando a un ritmo adecuado, esta gráfica debería mostrar una línea de convergencia clara año con año. Sin embargo, la evolución histórica (2015-2023) nos cuenta una historia de resistencia estructural.", component: <ChartBrechaHistorica /> },
-    { id: "filtro", title: "La Fuga Silenciosa: Quién entra y quién logra salir de las carreras del futuro.", narrative: "Tradicionalmente, las políticas públicas se han centrado en incentivar a que más mujeres elijan estudiar carreras STEM (Ciencia, Tecnología, Ingeniería y Matemáticas). Sin embargo, esta visualización revela una falla sistémica más profunda: el problema no es solo quién entra, sino quién logra quedarse.", component: <ChartFiltro2022 /> },
-    { id: "egreso", title: "El Reloj Detenido: La verdadera velocidad del talento femenino.", narrative: "Cuando analizamos el progreso de las mujeres en STEM, es fácil caer en el optimismo de los números absolutos de ingreso. Sin embargo, al observar la evolución del porcentaje de egreso efectivo a lo largo de los años, nos encontramos con una curva de crecimiento dolorosamente plana o, en el mejor de los casos, marginal.", component: <ChartEgresoMujeres /> },
-    { id: "impacto", title: "¿Paga la educación? El retorno desigual del talento femenino.", narrative: "Este análisis nos demuestra que la educación por sí sola no es la cura. Para que el retorno educativo sea justo, necesitamos políticas que acompañen el talento femenino en el mercado laboral remunerado, asegurando que cada año de esfuerzo en las aulas se refleje peso a peso en sus salarios.", component: <ChartImpactoMujeres /> },
-    { id: "prediccion", title: "Romper la Inercia:Por qué el 2030 no bastará.", narrative: "Esta proyección es una advertencia matemática: el tiempo por sí solo no rompe techos de cristal ni desactiva el Filtro Invisible. Si mantenemos la trayectoria actual, llegaremos a la meta de los Objetivos de Desarrollo Sostenible de la ONU con aulas más diversas, pero con las mismas mesas directivas excluyentes. Para alterar esta curva hacia el 2030, la intervención ya no debe enfocarse solo en convencer a las niñas de estudiar ciencias, sino en auditar y transformar agresivamente las políticas de retención y promoción corporativa.", component: <ChartPrediccion /> }
+    { 
+      id: "brecha", 
+      title: "La Ilusión del Progreso: Años de estancamiento.", 
+      narrative: "El tiempo pasa, la brecha permanece. Si las políticas de inclusión actuales estuvieran funcionando a un ritmo adecuado, esta gráfica debería mostrar una línea de convergencia clara año con año. Sin embargo, la evolución histórica (2015-2023) nos cuenta una historia de resistencia estructural.", 
+      component: <ChartBrechaHistorica /> 
+    },
+    { 
+      id: "filtro", 
+      title: "La Fuga Silenciosa: Quién entra y quién logra salir de las carreras del futuro.", 
+      narrative: "Tradicionalmente, las políticas públicas se han centrado en incentivar a que más mujeres elijan estudiar carreras STEM (Ciencia, Tecnología, Ingeniería y Matemáticas). Sin embargo, esta visualización revela una falla sistémica más profunda: el problema no es solo quién entra, sino quién logra quedarse.", 
+      component: <ChartFiltro2022 /> 
+    },
+    { 
+      id: "egreso", 
+      title: "El Reloj Detenido: La verdadera velocidad del talento femenino.", 
+      narrative: "Cuando analizamos el progreso de las mujeres en STEM, es fácil caer en el optimismo de los números absolutos de ingreso. Sin embargo, al observar la evolución del porcentaje de egreso efectivo a lo largo de los años, nos encontramos con una curva de crecimiento dolorosamente plana o, en el mejor de los casos, marginal.", 
+      component: <ChartEgresoMujeres /> 
+    },
+    { 
+      id: "impacto", 
+      title: "¿Paga la educación? El retorno desigual del talento femenino.", 
+      narrative: "Este análisis nos demuestra que la educación por sí sola no es la cura. Para que el retorno educativo sea justo, necesitamos políticas que acompañen el talento femenino en el mercado laboral remunerado, asegurando que cada año de esfuerzo en las aulas se refleje peso a peso en sus salarios.", 
+      component: <ChartImpactoMujeres /> 
+    },
+    { 
+      id: "prediccion", 
+      title: "Romper la Inercia: Por qué el 2030 no bastará.", 
+      narrative: "Esta proyección es una advertencia matemática: el tiempo por sí solo no rompe techos de cristal ni desactiva el Filtro Invisible. Si mantenemos la trayectoria actual, llegaremos a la meta de los Objetivos de Desarrollo Sostenible de la ONU con aulas más diversas, pero con las mismas mesas directivas excluyentes. Para alterar esta curva hacia el 2030, la intervención ya no debe enfocarse solo en convencer a las niñas de estudiar ciencias, sino en auditar y transformar agresivamente las políticas de retención y promoción corporativa.", 
+      component: <ChartPrediccion /> 
+    }
   ];
 
   return (
@@ -77,7 +124,7 @@ export default function Dashboard() {
       
       {/* HEADER */}
       <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-in-out border-t-[12px] border-t-[#0f766e] bg-white ${
-        isScrolled ? "py-2 shadow-md" : "py-6 shadow-xl"
+        isScrolled ? "py-2 shadow-md" : "py-6 shadow-xl shadow-stone-200/40"
       }`}>
         <div className="max-w-[1600px] mx-auto px-8 flex justify-between items-center">
           <div className="flex items-center gap-6 bg-white rounded-2xl px-4 py-2 border border-stone-100 shadow-sm">
@@ -105,7 +152,7 @@ export default function Dashboard() {
 
       <main className="max-w-[1600px] mx-auto px-6 pt-44 pb-20 flex flex-col gap-10">
         
-        {/* KPIs y PROPÓSITOS (Se mantienen igual) */}
+        {/* PROPÓSITOS */}
         <section className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {[
             { t: "Propósito", d: "Imaginar un futuro donde el talento femenino impulse la economía.", i: Target, bg: "bg-stone-50", ic: "text-stone-600" },
@@ -122,9 +169,9 @@ export default function Dashboard() {
           ))}
         </section>
 
-        {/* DASHBOARD */}
-        <div className="bg-white rounded-[3rem] shadow-2xl overflow-hidden flex flex-col md:flex-row min-h-[750px] border border-stone-100">
-          <aside className="w-full md:w-80 p-10 flex flex-col bg-white border-r border-stone-100">
+        {/* DASHBOARD CON CONTORNO VERDE Y TEXTOS LARGOS */}
+        <div className="bg-white rounded-[3rem] shadow-2xl overflow-hidden flex flex-col md:flex-row min-h-[750px] border border-stone-100 border-l-[16px] border-l-[#0f766e]">
+          <aside className="w-full md:w-80 p-10 flex flex-col bg-stone-50/30 md:bg-white border-b md:border-b-0 md:border-r border-stone-100">
             <div className="mb-10 pl-4 border-l-4 border-[#0f766e]">
               <span className="text-[10px] font-black text-[#0f766e] uppercase tracking-[0.3em] mb-1 block">EXPLORACIÓN</span>
               <h4 className="text-xl font-bold text-slate-900 leading-tight">Analiza por etapa</h4>
@@ -135,7 +182,9 @@ export default function Dashboard() {
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
                   className={`relative text-left py-4 px-8 transition-all duration-300 text-sm font-bold tracking-tight rounded-xl ${
-                    activeTab === tab.id ? "text-[#ca8a04] bg-white shadow-lg border border-stone-50" : "text-slate-400"
+                    activeTab === tab.id 
+                    ? "text-[#ca8a04] bg-white shadow-lg border border-stone-50" 
+                    : "text-slate-400 hover:text-slate-600"
                   }`}
                 >
                   {activeTab === tab.id && <div className="absolute left-0 top-1/4 bottom-1/4 w-[4px] bg-[#ca8a04] rounded-full" />}
@@ -150,8 +199,8 @@ export default function Dashboard() {
               <div key={tab.id} className={activeTab === tab.id ? "block animate-in fade-in duration-500" : "hidden"}>
                 <div className="mb-10">
                    <div className="h-1 w-12 bg-[#14b8a6] rounded-full mb-6"></div>
-                   <h2 className="text-5xl font-black text-slate-950 mb-4 tracking-tighter">{tab.title}</h2>
-                   <p className="text-xl text-slate-500 font-medium leading-relaxed max-w-2xl">{tab.narrative}</p>
+                   <h2 className="text-5xl font-black text-slate-950 mb-4 tracking-tighter leading-tight">{tab.title}</h2>
+                   <p className="text-xl text-slate-500 font-medium leading-relaxed max-w-3xl">{tab.narrative}</p>
                 </div>
                 <div className="bg-[#fcfcfc] rounded-[2.5rem] p-10 border border-stone-50 shadow-inner min-h-[580px]">
                    {tab.component}
@@ -164,15 +213,26 @@ export default function Dashboard() {
         {/* MAPA */}
         <MapaInteractivo onCountryClick={setSelectedCountry} />
 
-        {/* TABLA DINÁMICA */}
+        {/* TABLA DINÁMICA CON BOTÓN DE DESCARGA CSV */}
         <div className="flex flex-col gap-4">
           <div className="flex justify-between items-end px-4">
             <h3 className="text-2xl font-black text-slate-900 tracking-tight">Análisis Real por País</h3>
-            {selectedCountry && (
-              <button onClick={() => setSelectedCountry(null)} className="text-[10px] font-black text-[#ca8a04] uppercase border-b-2 border-amber-200">
-                Limpiar filtro: {selectedCountry}
+            <div className="flex gap-4">
+              <button 
+                onClick={downloadCSV}
+                className="flex items-center gap-2 bg-[#14b8a6] text-white px-4 py-2 rounded-xl text-[10px] font-black uppercase hover:bg-[#0f766e] transition-all shadow-md"
+              >
+                <Download size={14} /> Descargar CSV
               </button>
-            )}
+              {selectedCountry && (
+                <button 
+                  onClick={() => setSelectedCountry(null)} 
+                  className="text-[10px] font-black text-[#ca8a04] uppercase border-b-2 border-amber-200"
+                >
+                  Limpiar filtro: {selectedCountry}
+                </button>
+              )}
+            </div>
           </div>
           <Card className="rounded-[3rem] shadow-xl border border-stone-100 overflow-hidden bg-white">
             <Table>
@@ -202,7 +262,7 @@ export default function Dashboard() {
           </Card>
         </div>
 
-        {/* CONCLUSIÓN */}
+        {/* CONCLUSIÓN FINAL */}
         <section className="py-20 px-10 bg-[#0f766e] rounded-[3rem] text-center shadow-2xl">
           <div className="max-w-4xl mx-auto">
             <Badge className="bg-teal-400/20 text-teal-100 border-none mb-6 px-4 py-1 text-xs uppercase tracking-widest font-bold">
