@@ -26,34 +26,10 @@ import {
   BarChart3,
 } from "lucide-react"
 import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  Tooltip,
   ResponsiveContainer,
-  LineChart,
-  Line,
-  Legend,
-  CartesianGrid,
 } from "recharts"
 
 // --- DATA ---
-const funnelData = [
-  { stage: "Matrícula", women: 48, men: 52 },
-  { stage: "Egreso", women: 45, men: 55 },
-  { stage: "1er Empleo", women: 36, men: 64 },
-  { stage: "Mandos Medios", women: 18, men: 82 },
-  { stage: "Dirección", women: 8, men: 92 },
-]
-
-const retentionData = [
-  { year: "Año 1", women: 100, men: 100 },
-  { year: "Año 5", women: 50, men: 82 },
-  { year: "Año 10", women: 22, men: 71 },
-  { year: "Año 15", women: 12, men: 65 },
-]
-
 const careersData = [
   { rank: 1, career: "Medicina de especialidad", salary: "$35,033", womenPercent: "38%", gap: "24%" },
   { rank: 2, career: "Finanzas y banca", salary: "$28,336", womenPercent: "46%", gap: "18%" },
@@ -82,37 +58,37 @@ export default function Dashboard() {
   const chartSections = [
     {
       id: "brecha",
-      title: "Brecha Persistente",
+      title: "La Ilusión del Progreso:Años de estancamiento",
       subtitle: "Análisis Histórico",
-      narrative: "A pesar de los avances, la distancia en las carreras mejor pagadas se mantiene estática.",
+      narrative: "El tiempo pasa, la brecha permanece. Si las políticas de inclusión actuales estuvieran funcionando a un ritmo adecuado, esta gráfica debería mostrar una línea de convergencia clara año con año. Sin embargo, la evolución histórica (2015-2023) nos cuenta una historia de resistencia estructural.",
       component: <ChartBrechaHistorica />
     },
     {
       id: "filtro",
-      title: "Impacto Regional",
+      title: "La Fuga Silenciosa: Quién entra y quién logra salir de las carreras del futuro.",
       subtitle: "Ingreso vs Egreso",
-      narrative: "El mercado desplazó el talento femenino a un ritmo acelerado tras la pandemia.",
+      narrative: "Tradicionalmente, las políticas públicas se han centrado en incentivar a que más mujeres elijan estudiar carreras STEM (Ciencia, Tecnología, Ingeniería y Matemáticas). Sin embargo, esta visualización revela una falla sistémica más profunda: el problema no es solo quién entra, sino quién logra quedarse.",
       component: <ChartFiltro2022 />
     },
     {
       id: "egreso",
-      title: "Elecciones de Egreso",
+      title: "El Reloj Detenido: La verdadera velocidad del talento femenino",
       subtitle: "Distribución por Género",
-      narrative: "Observamos una exclusión sistémica en las disciplinas del top 50 de ingresos.",
+      narrative: "Cuando analizamos el progreso de las mujeres en STEM, es fácil caer en el optimismo de los números absolutos de ingreso. Sin embargo, al observar la evolución del porcentaje de egreso efectivo a lo largo de los años, nos encontramos con una curva de crecimiento dolorosamente plana o, en el mejor de los casos, marginal.",
       component: <ChartEgresoMujeres />
     },
     {
       id: "impacto",
-      title: "¿Paga la educación?",
+      title: "¿Paga la educación? El retorno desigual del talento femenino.",
       subtitle: "Retorno del Talento",
-      narrative: "Análisis del retorno educativo: el esfuerzo en las aulas debe reflejarse en el salario.",
+      narrative: "Este análisis nos demuestra que la educación por sí sola no es la cura. Para que el retorno educativo sea justo, necesitamos políticas que acompañen el talento femenino en el mercado laboral remunerado, asegurando que cada año de esfuerzo en las aulas se refleje peso a peso en sus salarios.",
       component: <ChartImpactoMujeres />
     },
     {
       id: "prediccion",
-      title: "Proyección 2030",
+      title: "Romper la Inercia:Por qué el 2030 no bastará.",
       subtitle: "Machine Learning",
-      narrative: "Modelado predictivo sobre la paridad salarial en las próximas décadas.",
+      narrative: "Esta proyección es una advertencia matemática: el tiempo por sí solo no rompe techos de cristal ni desactiva el Filtro Invisible. Si mantenemos la trayectoria actual, llegaremos a la meta de los Objetivos de Desarrollo Sostenible de la ONU con aulas más diversas, pero con las mismas mesas directivas excluyentes. Para alterar esta curva hacia el 2030, la intervención ya no debe enfocarse solo en convencer a las niñas de estudiar ciencias, sino en auditar y transformar agresivamente las políticas de retención y promoción corporativa.",
       component: <ChartPrediccion />
     }
   ];
@@ -148,12 +124,12 @@ export default function Dashboard() {
       {/* MAIN CONTENT */}
       <main className="max-w-[1600px] mx-auto px-4 md:px-6 pt-32 md:pt-40 pb-12 flex flex-col gap-8 md:gap-10">
         
-        {/* CARDS PROPÓSITO: 1 col móvil, 3 cols desktop */}
+        {/* CARDS PROPÓSITO */}
         <section className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
           {[
-            { t: "Propósito", d: "Mapeamos el acceso a la riqueza en las 50 carreras con mejores salarios promedio.", i: Target, bgColor: "bg-stone-50", iconColor: "text-stone-600", accent: "border-stone-100" },
-            { t: "Impacto Humano", d: "Evidencia para enfocar políticas de retención en mandos medios y dirección.", i: Lightbulb, bgColor: "bg-amber-50/50", iconColor: "text-amber-600", accent: "border-amber-100/50" },
-            { t: "Metodología", d: "Cruce de microdatos con modelos de Análisis de Supervivencia e IA.", i: BarChart3, bgColor: "bg-teal-50/50", iconColor: "text-teal-600", accent: "border-teal-100/50" }
+            { t: "Propósito", d: "Imaginar un futuro donde el talento femenino impulse la economía.", i: Target, bgColor: "bg-stone-50", iconColor: "text-stone-600", accent: "border-stone-100" },
+            { t: "Impacto Humano", d: "Transformar la vida de las mujeres para crear bienestar común.", i: Lightbulb, bgColor: "bg-amber-50/50", iconColor: "text-amber-600", accent: "border-amber-100/50" },
+            { t: "Metodología", d: "Convertimos datos oficiales en predicciones fáciles de entender.", i: BarChart3, bgColor: "bg-teal-50/50", iconColor: "text-teal-600", accent: "border-teal-100/50" }
           ].map((f, idx) => (
             <div key={idx} className={`group bg-white p-6 md:p-8 rounded-[1.5rem] md:rounded-[2rem] border-2 ${f.accent} shadow-sm transition-all`}>
                 <div className={`inline-flex items-center justify-center w-12 h-12 md:w-14 md:h-14 ${f.bgColor} ${f.iconColor} rounded-2xl mb-4 md:mb-6`}>
@@ -165,7 +141,7 @@ export default function Dashboard() {
           ))}
         </section>
 
-        {/* KPIs: 2 cols móvil, 4 cols desktop */}
+        {/* KPIs */}
         <section className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
           {kpiData.map((kpi) => (
             <Card key={kpi.title} className="bg-white shadow-sm border-stone-100 rounded-[1.5rem] md:rounded-[2rem] p-4 md:p-6">
@@ -187,7 +163,7 @@ export default function Dashboard() {
         {/* DASHBOARD PRINCIPAL RESPONSIVO */}
         <section className="bg-white rounded-[2rem] md:rounded-[3rem] flex flex-col md:flex-row overflow-hidden border border-stone-100 shadow-2xl border-l-[10px] md:border-l-[20px] border-l-[#0f766e]">
           
-          {/* SIDEBAR / TABS: Scroll horizontal en móvil */}
+          {/* SIDEBAR / TABS */}
           <div className="w-full md:w-[25%] lg:w-[22%] p-6 md:p-10 flex flex-col gap-4 bg-stone-50/30 md:bg-white border-b md:border-b-0 md:border-r border-stone-100">
             <div className="mb-4 md:mb-10 pl-4 md:pl-6 relative">
               <div className="absolute left-0 top-1 bottom-1 w-[3px] bg-[#0f766e] rounded-full" />
@@ -241,44 +217,25 @@ export default function Dashboard() {
           </div>
         </section>
 
-        {/* TABLA Y EXTRAS (Igual con ajustes de padding móvil) */}
-        <section className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-10">
-          {[
-            { t: "Embudo de Deserción", d: "Trayectoria en sectores de alto valor.", data: funnelData, type: 'bar' },
-            { t: "Supervivencia Laboral", d: "Retención estimada a 15 años.", data: retentionData, type: 'line' }
-          ].map((chart, i) => (
-            <Card key={i} className="rounded-[1.5rem] md:rounded-[2.5rem] shadow-sm p-6 md:p-8 bg-white">
-              <CardHeader className="pb-4 md:pb-8 p-0">
-                <CardTitle className="text-xl md:text-2xl font-bold text-slate-950">{chart.t}</CardTitle>
-                <CardDescription className="text-xs md:text-sm font-semibold text-slate-700">{chart.d}</CardDescription>
-              </CardHeader>
-              <CardContent className="p-0 h-64 md:h-80">
-                <ResponsiveContainer width="100%" height="100%">
-                  {chart.type === 'bar' ? (
-                    <BarChart data={chart.data} layout="vertical" margin={{ left: -20, right: 20 }}>
-                      <XAxis type="number" hide />
-                      <YAxis dataKey="stage" type="category" tick={{fontSize: 10, fill: '#1e293b', fontWeight: 600}} width={80} axisLine={false} tickLine={false} />
-                      <Tooltip cursor={{fill: 'transparent'}} />
-                      <Bar dataKey="women" stackId="a" fill="#ca8a04" barSize={20} />
-                      <Bar dataKey="men" stackId="a" fill="#14b8a6" radius={[0, 4, 4, 0]} barSize={20} />
-                    </BarChart>
-                  ) : (
-                    <LineChart data={chart.data}>
-                      <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f0f0f0" />
-                      <XAxis dataKey="year" tick={{fontSize: 10, fontWeight: 600}} axisLine={false} />
-                      <YAxis tick={{fontSize: 10, fontWeight: 600}} axisLine={false} tickFormatter={(v)=>`${v}%`} />
-                      <Tooltip />
-                      <Line type="monotone" dataKey="women" stroke="#ca8a04" strokeWidth={3} dot={{r: 4}} />
-                      <Line type="monotone" dataKey="men" stroke="#14b8a6" strokeWidth={3} dot={{r: 4}} />
-                    </LineChart>
-                  )}
-                </ResponsiveContainer>
-              </CardContent>
-            </Card>
-          ))}
+        {/* NUEVA SECCIÓN: TEXTO LLAMATIVO (REEMPLAZA LAS GRÁFICAS EXTRAS) */}
+        <section className="py-12 md:py-20 px-6 md:px-10 bg-[#0f766e] rounded-[2rem] md:rounded-[3rem] text-center shadow-2xl">
+          <div className="max-w-4xl mx-auto">
+            <Badge className="bg-teal-400/20 text-teal-100 border-none mb-6 px-4 py-1 text-xs uppercase tracking-widest font-bold">
+              Conclusión del Análisis
+            </Badge>
+            <h2 className="text-3xl md:text-6xl font-black text-white tracking-tighter leading-tight md:leading-none mb-8">
+               La igualdad no es solo una meta social,<br className="hidden md:block" /> 
+              <span className="text-amber-400">es el motor del bien común</span>
+            </h2>
+            <p className="text-base md:text-xl text-teal-50/80 font-medium leading-relaxed mb-10">
+              Cuando el talento femenino lidera en tecnología y dirección, el PIB crece, las familias prosperan 
+              y el futuro de la región deja de estar a medias.
+            </p>
+            
+          </div>
         </section>
 
-        {/* TABLA: Scroll horizontal automático en móvil */}
+        {/* TABLA: MANTENIDA AL FINAL */}
         <Card className="rounded-[1.5rem] md:rounded-[3rem] shadow-xl border-none overflow-x-auto bg-white">
           <Table className="min-w-[600px]">
             <TableHeader className="bg-stone-900">
@@ -306,7 +263,6 @@ export default function Dashboard() {
 
       </main>
 
-      {/* FOOTER */}
       <footer className="bg-[#0f766e] py-10 md:py-16 text-center border-t border-white/10">
         <div className="max-w-7xl mx-auto px-6">
           <p className="text-white text-[12px] md:text-[14px] font-black uppercase tracking-[0.3em] mb-4">Universidad Politécnica de Puebla</p>
