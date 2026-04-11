@@ -103,16 +103,16 @@ export default function Dashboard() {
     },
     {
       id: "impacto",
-      title: "¿Paga la educación? El retorno desigual del talento femenino.",
+      title: "¿Paga la educación?",
       subtitle: "Retorno del Talento",
-      narrative: "Este análisis nos demuestra que la educación por sí sola no es la cura. Para que el retorno educativo sea justo, necesitamos políticas que acompañen el talento femenino en el mercado laboral remunerado, asegurando que cada año de esfuerzo en las aulas se refleje peso a peso en sus salarios.",
+      narrative: "Análisis del retorno educativo: el esfuerzo en las aulas debe reflejarse en el salario.",
       component: <ChartImpactoMujeres />
     },
     {
       id: "prediccion",
       title: "Proyección 2030",
       subtitle: "Machine Learning",
-      narrative: "Modelado predictivo sobre la paridad salarial y participación en las próximas décadas.",
+      narrative: "Modelado predictivo sobre la paridad salarial en las próximas décadas.",
       component: <ChartPrediccion />
     }
   ];
@@ -120,129 +120,118 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen bg-[#f8f9fa] font-sans text-stone-900 selection:bg-[#14b8a6]/20">
       
-      {/* HEADER */}
-      <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-in-out border-t-[12px] border-t-[#0f766e] bg-white ${
-        isScrolled ? "py-2 shadow-md" : "py-6 shadow-xl shadow-stone-200/40"
+      {/* HEADER RESPONSIVO */}
+      <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-in-out border-t-[8px] md:border-t-[12px] border-t-[#0f766e] bg-white ${
+        isScrolled ? "py-2 shadow-md" : "py-4 md:py-6 shadow-xl shadow-stone-200/40"
       }`}>
-        <div className="max-w-[1600px] mx-auto px-8">
+        <div className="max-w-[1600px] mx-auto px-4 md:px-8">
           <div className="flex items-center justify-between">
-            <div className={`transition-all duration-500 bg-white border border-stone-100 rounded-2xl px-6 py-3 flex items-center gap-4 ${
-              !isScrolled ? "shadow-[0_10px_30px_-10px_rgba(15,118,110,0.12)] border-[#14b8a6]/10" : "border-transparent"
+            <div className={`transition-all duration-500 bg-white border border-stone-100 rounded-2xl px-4 md:px-6 py-2 md:py-3 flex items-center gap-4 ${
+              !isScrolled ? "shadow-sm border-[#14b8a6]/10" : "border-transparent"
             }`}>
               <div className="flex flex-col">
-                <Badge className="bg-teal-50 text-teal-700 rounded-full px-2 py-0.5 text-[9px] font-bold border border-teal-100 mb-0.5 w-fit">
-                  Datatón regional para la igualdad 2026
+                <Badge className="bg-teal-50 text-teal-700 rounded-full px-2 py-0.5 text-[8px] md:text-[9px] font-bold border border-teal-100 mb-0.5 w-fit">
+                  Datatón 2026
                 </Badge>
-                <h1 className={`font-black tracking-tight text-slate-950 transition-all ${isScrolled ? "text-lg" : "text-2xl"}`}>
+                <h1 className={`font-black tracking-tight text-slate-950 transition-all ${isScrolled ? "text-base md:text-lg" : "text-xl md:text-2xl"}`}>
                   El Filtro Invisible
                 </h1>
               </div>
-              {!isScrolled && <div className="h-8 w-px bg-stone-100 hidden md:block" />}
-              {!isScrolled && (
-                <p className="text-[11px] font-bold text-[#ca8a04] uppercase tracking-widest hidden md:block">
-                  Trabajo remunerado
-                </p>
-              )}
             </div>
-            <p className="text-slate-800 text-xs font-bold uppercase tracking-widest hidden lg:block opacity-60">
+            <p className="text-slate-800 text-[10px] md:text-xs font-bold uppercase tracking-widest hidden sm:block opacity-60 text-right">
               América Latina y el Caribe
             </p>
           </div>
         </div>
       </header>
 
-      {/* AJUSTE: pt-40 para acercar el contenido al header */}
-      <main className="max-w-[1600px] mx-auto px-6 pt-40 pb-12 flex flex-col gap-10">
+      {/* MAIN CONTENT */}
+      <main className="max-w-[1600px] mx-auto px-4 md:px-6 pt-32 md:pt-40 pb-12 flex flex-col gap-8 md:gap-10">
         
-        {/* CARDS DE PROPÓSITO */}
-        <section className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {/* CARDS PROPÓSITO: 1 col móvil, 3 cols desktop */}
+        <section className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
           {[
-            { t: "Propósito", d: "Imaginar un futuro donde el talento femenino impulse la economía.", i: Target, bgColor: "bg-stone-50", iconColor: "text-stone-900", accent: "border-stone-100" },
-            { t: "Impacto Humano", d: "Transformar la vida de las mujeres para crear bienestar común.", i: Lightbulb, bgColor: "bg-amber-50/50", iconColor: "text-amber-600", accent: "border-amber-100/50" },
-            { t: "Metodología", d: "Convertimos datos oficiales en predicciones fáciles de entender.", i: BarChart3, bgColor: "bg-teal-50/50", iconColor: "text-teal-600", accent: "border-teal-100/50" }
+            { t: "Propósito", d: "Mapeamos el acceso a la riqueza en las 50 carreras con mejores salarios promedio.", i: Target, bgColor: "bg-stone-50", iconColor: "text-stone-600", accent: "border-stone-100" },
+            { t: "Impacto Humano", d: "Evidencia para enfocar políticas de retención en mandos medios y dirección.", i: Lightbulb, bgColor: "bg-amber-50/50", iconColor: "text-amber-600", accent: "border-amber-100/50" },
+            { t: "Metodología", d: "Cruce de microdatos con modelos de Análisis de Supervivencia e IA.", i: BarChart3, bgColor: "bg-teal-50/50", iconColor: "text-teal-600", accent: "border-teal-100/50" }
           ].map((f, idx) => (
-            <div key={idx} className={`group relative bg-white p-8 rounded-[2rem] border-2 ${f.accent} shadow-sm hover:shadow-xl transition-all duration-500`}>
-                <div className={`inline-flex items-center justify-center w-14 h-14 ${f.bgColor} ${f.iconColor} rounded-2xl mb-6 shadow-sm group-hover:scale-110 transition-transform`}>
-                  <f.i className="h-7 w-7" />
+            <div key={idx} className={`group bg-white p-6 md:p-8 rounded-[1.5rem] md:rounded-[2rem] border-2 ${f.accent} shadow-sm transition-all`}>
+                <div className={`inline-flex items-center justify-center w-12 h-12 md:w-14 md:h-14 ${f.bgColor} ${f.iconColor} rounded-2xl mb-4 md:mb-6`}>
+                  <f.i className="h-6 w-6 md:h-7 md:w-7" />
                 </div>
-                <h3 className="text-xl font-bold text-slate-950 mb-3 tracking-tight">{f.t}</h3>
-                <p className="text-sm text-slate-800 leading-relaxed font-semibold">{f.d}</p>
+                <h3 className="text-lg md:text-xl font-bold text-slate-950 mb-2 tracking-tight">{f.t}</h3>
+                <p className="text-xs md:text-sm text-slate-800 leading-relaxed font-semibold">{f.d}</p>
             </div>
           ))}
         </section>
 
-        {/* KPIs */}
-        <section className="grid grid-cols-2 lg:grid-cols-4 gap-8">
+        {/* KPIs: 2 cols móvil, 4 cols desktop */}
+        <section className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
           {kpiData.map((kpi) => (
-            <Card key={kpi.title} className="bg-white shadow-sm border-stone-100 rounded-[2rem] p-6 hover:shadow-md transition-shadow">
-              <CardHeader className="p-0 pb-4 flex-row items-center justify-between space-y-0">
-                <CardTitle className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">{kpi.title}</CardTitle>
-                <kpi.icon className="h-5 w-5 text-stone-200" />
+            <Card key={kpi.title} className="bg-white shadow-sm border-stone-100 rounded-[1.5rem] md:rounded-[2rem] p-4 md:p-6">
+              <CardHeader className="p-0 pb-2 md:p-0 md:pb-4 flex-row items-center justify-between space-y-0">
+                <CardTitle className="text-[9px] md:text-[11px] font-bold text-slate-500 uppercase tracking-wider">{kpi.title}</CardTitle>
+                <kpi.icon className="h-4 w-4 text-stone-200" />
               </CardHeader>
               <CardContent className="p-0">
-                <div className="flex items-baseline gap-2">
-                  <p className="text-4xl font-black text-slate-950 tracking-tighter">{kpi.value}</p>
-                  <span className={`text-xs font-bold ${kpi.trendPositive ? "text-[#14b8a6]" : "text-[#ca8a04]"}`}>{kpi.trend}</span>
+                <div className="flex items-baseline gap-1 md:gap-2">
+                  <p className="text-2xl md:text-4xl font-black text-slate-950 tracking-tighter">{kpi.value}</p>
+                  <span className={`text-[10px] md:text-xs font-bold ${kpi.trendPositive ? "text-[#14b8a6]" : "text-[#ca8a04]"}`}>{kpi.trend}</span>
                 </div>
-                <p className="text-[11px] text-slate-600 mt-2 font-semibold">{kpi.description}</p>
+                <p className="text-[9px] md:text-[11px] text-slate-600 mt-1 md:mt-2 font-semibold line-clamp-1">{kpi.description}</p>
               </CardContent>
             </Card>
           ))}
         </section>
 
-        {/* DASHBOARD PRINCIPAL */}
-        <section className="bg-white rounded-[3rem] flex flex-col md:flex-row overflow-hidden min-h-[800px] border border-stone-100 shadow-2xl shadow-stone-200/30 border-l-[20px] border-l-[#0f766e]">
+        {/* DASHBOARD PRINCIPAL RESPONSIVO */}
+        <section className="bg-white rounded-[2rem] md:rounded-[3rem] flex flex-col md:flex-row overflow-hidden border border-stone-100 shadow-2xl border-l-[10px] md:border-l-[20px] border-l-[#0f766e]">
           
-          {/* SIDEBAR NAVEGACIÓN */}
-          <div className="w-full md:w-[22%] p-10 flex flex-col gap-4 bg-white border-r border-stone-50">
-            <div className="mb-10 pl-6 relative">
+          {/* SIDEBAR / TABS: Scroll horizontal en móvil */}
+          <div className="w-full md:w-[25%] lg:w-[22%] p-6 md:p-10 flex flex-col gap-4 bg-stone-50/30 md:bg-white border-b md:border-b-0 md:border-r border-stone-100">
+            <div className="mb-4 md:mb-10 pl-4 md:pl-6 relative">
               <div className="absolute left-0 top-1 bottom-1 w-[3px] bg-[#0f766e] rounded-full" />
-              <span className="text-[10px] font-black text-[#0f766e] uppercase tracking-[0.3em] mb-2 block">Exploración</span>
-              <h4 className="text-[18px] font-bold text-slate-900 leading-snug tracking-tight">Selecciona una etapa</h4>
-              <div className="h-[5px] w-8 bg-[#0f766e] mt-4 opacity-150" />
+              <span className="text-[9px] md:text-[10px] font-black text-[#0f766e] uppercase tracking-[0.3em] mb-1 block">Exploración</span>
+              <h4 className="text-sm md:text-[18px] font-bold text-slate-900 leading-snug">Selecciona una etapa</h4>
             </div>
             
-            <nav className="flex flex-col gap-2">
+            <nav className="flex flex-row md:flex-col gap-2 overflow-x-auto no-scrollbar pb-2 md:pb-0">
               {chartSections.map((tab) => (
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`group relative flex items-center gap-4 px-6 py-5 transition-all duration-500 rounded-2xl border ${
+                  className={`flex-shrink-0 group relative flex items-center gap-4 px-4 md:px-6 py-3 md:py-5 transition-all duration-300 rounded-xl md:rounded-2xl border ${
                     activeTab === tab.id 
-                      ? "bg-white border-amber-100 shadow-[0_15px_45px_-10px_rgba(202,138,4,0.18)] translate-x-1" 
-                      : "bg-transparent border-transparent hover:bg-stone-50/50"
+                      ? "bg-white border-amber-100 shadow-md md:translate-x-1" 
+                      : "bg-transparent border-transparent text-stone-400"
                   }`}
                 >
-                  <div className={`absolute left-0 w-1 h-6 rounded-r-full transition-all duration-300 ${
+                  <div className={`hidden md:block absolute left-0 w-1 h-6 rounded-r-full transition-all ${
                     activeTab === tab.id ? "bg-[#ca8a04]" : "bg-transparent"
                   }`} />
-                  <div className="flex flex-col items-start overflow-hidden">
-                    <span className={`text-[14px] font-bold tracking-tight truncate w-full ${
-                      activeTab === tab.id ? "text-[#ca8a04]" : "text-stone-400 group-hover:text-stone-600"
-                    }`}>
-                      {tab.title}
-                    </span>
-                    <span className="text-[10px] font-medium text-stone-500 mt-0.5">{tab.subtitle}</span>
-                  </div>
+                  <span className={`text-xs md:text-[14px] font-bold tracking-tight whitespace-nowrap ${
+                    activeTab === tab.id ? "text-[#ca8a04]" : "group-hover:text-stone-600"
+                  }`}>
+                    {tab.title}
+                  </span>
                 </button>
               ))}
             </nav>
           </div>
 
           {/* CONTENEDOR DE GRÁFICAS */}
-          <div className="w-full md:w-[78%] p-10 lg:p-14 bg-white flex flex-col">
+          <div className="w-full md:w-[75%] lg:w-[78%] p-6 md:p-10 lg:p-14 bg-white flex flex-col">
             {chartSections.map((tab) => (
-              <div key={tab.id} className={activeTab === tab.id ? "flex flex-col h-full animate-in fade-in zoom-in-95 duration-700" : "hidden"}>
-                
-                {/* NARRATIVA: Espacio mb-6 para pegar el texto a la gráfica */}
+              <div key={tab.id} className={activeTab === tab.id ? "flex flex-col h-full animate-in fade-in duration-500" : "hidden"}>
                 <div className="flex flex-col mb-6">
-                   <div className="h-1.5 w-12 bg-[#14b8a6] rounded-full mb-4"></div>
-                   <h3 className="text-4xl font-black text-slate-950 tracking-tight mb-2">{tab.title}</h3>
-                   <p className="text-lg text-slate-500 leading-relaxed max-w-3xl font-medium">{tab.narrative}</p>
+                   <div className="h-1 w-10 bg-[#14b8a6] rounded-full mb-4"></div>
+                   <h3 className="text-2xl md:text-4xl font-black text-slate-950 tracking-tight mb-2">{tab.title}</h3>
+                   <p className="text-sm md:text-lg text-slate-500 leading-relaxed max-w-3xl font-medium line-clamp-3 md:line-clamp-none">
+                     {tab.narrative}
+                   </p>
                 </div>
 
-                {/* CONTENEDOR GRÁFICA: p-8 para optimizar espacio */}
-                <div className="bg-white rounded-[2.5rem] p-8 border border-stone-50 shadow-sm flex-grow min-h-[550px] flex items-center justify-center overflow-visible">
+                <div className="bg-white rounded-[1.5rem] md:rounded-[2.5rem] p-4 md:p-8 border border-stone-50 shadow-sm flex-grow min-h-[400px] md:min-h-[550px] flex items-center justify-center">
                   <div className="w-full h-full">
                     {tab.component}
                   </div>
@@ -252,62 +241,60 @@ export default function Dashboard() {
           </div>
         </section>
 
-        {/* SECCIONES ADICIONALES (EMBUDO Y SUPERVIVENCIA) */}
-        <section className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+        {/* TABLA Y EXTRAS (Igual con ajustes de padding móvil) */}
+        <section className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-10">
           {[
             { t: "Embudo de Deserción", d: "Trayectoria en sectores de alto valor.", data: funnelData, type: 'bar' },
             { t: "Supervivencia Laboral", d: "Retención estimada a 15 años.", data: retentionData, type: 'line' }
           ].map((chart, i) => (
-            <Card key={i} className="rounded-[2.5rem] shadow-sm border-stone-50 p-8 bg-white">
-              <CardHeader className="pb-8 p-0">
-                <CardTitle className="text-2xl font-bold tracking-tight text-slate-950">{chart.t}</CardTitle>
-                <CardDescription className="text-sm font-semibold text-slate-700">{chart.d}</CardDescription>
+            <Card key={i} className="rounded-[1.5rem] md:rounded-[2.5rem] shadow-sm p-6 md:p-8 bg-white">
+              <CardHeader className="pb-4 md:pb-8 p-0">
+                <CardTitle className="text-xl md:text-2xl font-bold text-slate-950">{chart.t}</CardTitle>
+                <CardDescription className="text-xs md:text-sm font-semibold text-slate-700">{chart.d}</CardDescription>
               </CardHeader>
-              <CardContent className="p-0">
-                <div className="h-80 w-full">
-                  <ResponsiveContainer width="100%" height="100%">
-                    {chart.type === 'bar' ? (
-                      <BarChart data={chart.data} layout="vertical" margin={{ left: 10, right: 30 }}>
-                        <XAxis type="number" hide />
-                        <YAxis dataKey="stage" type="category" tick={{fontSize: 12, fill: '#1e293b', fontWeight: 600}} width={100} axisLine={false} tickLine={false} />
-                        <Tooltip cursor={{fill: 'transparent'}} contentStyle={{borderRadius: '12px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)'}} />
-                        <Bar dataKey="women" name="Mujeres" stackId="a" fill="#ca8a04" barSize={25} />
-                        <Bar dataKey="men" name="Hombres" stackId="a" fill="#14b8a6" radius={[0, 6, 6, 0]} barSize={25} />
-                      </BarChart>
-                    ) : (
-                      <LineChart data={chart.data}>
-                        <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f0f0f0" />
-                        <XAxis dataKey="year" tick={{fontSize: 12, fill: '#1e293b', fontWeight: 600}} axisLine={false} tickLine={false} />
-                        <YAxis tick={{fontSize: 12, fill: '#1e293b', fontWeight: 600}} axisLine={false} tickLine={false} tickFormatter={(v)=>`${v}%`} />
-                        <Tooltip contentStyle={{borderRadius: '12px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)'}} />
-                        <Line type="monotone" dataKey="women" name="Mujeres" stroke="#ca8a04" strokeWidth={4} dot={{r: 6}} />
-                        <Line type="monotone" dataKey="men" name="Hombres" stroke="#14b8a6" strokeWidth={4} dot={{r: 6}} />
-                      </LineChart>
-                    )}
-                  </ResponsiveContainer>
-                </div>
+              <CardContent className="p-0 h-64 md:h-80">
+                <ResponsiveContainer width="100%" height="100%">
+                  {chart.type === 'bar' ? (
+                    <BarChart data={chart.data} layout="vertical" margin={{ left: -20, right: 20 }}>
+                      <XAxis type="number" hide />
+                      <YAxis dataKey="stage" type="category" tick={{fontSize: 10, fill: '#1e293b', fontWeight: 600}} width={80} axisLine={false} tickLine={false} />
+                      <Tooltip cursor={{fill: 'transparent'}} />
+                      <Bar dataKey="women" stackId="a" fill="#ca8a04" barSize={20} />
+                      <Bar dataKey="men" stackId="a" fill="#14b8a6" radius={[0, 4, 4, 0]} barSize={20} />
+                    </BarChart>
+                  ) : (
+                    <LineChart data={chart.data}>
+                      <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f0f0f0" />
+                      <XAxis dataKey="year" tick={{fontSize: 10, fontWeight: 600}} axisLine={false} />
+                      <YAxis tick={{fontSize: 10, fontWeight: 600}} axisLine={false} tickFormatter={(v)=>`${v}%`} />
+                      <Tooltip />
+                      <Line type="monotone" dataKey="women" stroke="#ca8a04" strokeWidth={3} dot={{r: 4}} />
+                      <Line type="monotone" dataKey="men" stroke="#14b8a6" strokeWidth={3} dot={{r: 4}} />
+                    </LineChart>
+                  )}
+                </ResponsiveContainer>
               </CardContent>
             </Card>
           ))}
         </section>
 
-        {/* TABLA DE CARRERAS */}
-        <Card className="rounded-[3rem] shadow-2xl shadow-stone-200/20 border-none overflow-hidden bg-white mb-10">
-          <Table>
+        {/* TABLA: Scroll horizontal automático en móvil */}
+        <Card className="rounded-[1.5rem] md:rounded-[3rem] shadow-xl border-none overflow-x-auto bg-white">
+          <Table className="min-w-[600px]">
             <TableHeader className="bg-stone-900">
-              <TableRow className="hover:bg-stone-900 border-none">
-                <TableHead className="font-bold h-20 px-12 text-white uppercase text-[10px] tracking-widest text-center">Rank</TableHead>
-                <TableHead className="font-bold h-20 px-12 text-white uppercase text-[10px] tracking-widest text-left">Carrera Profesional</TableHead>
-                <TableHead className="font-bold h-20 px-12 text-white uppercase text-[10px] tracking-widest text-center">% Mujeres</TableHead>
+              <TableRow className="hover:bg-stone-900">
+                <TableHead className="h-16 px-6 text-white uppercase text-[9px] tracking-widest text-center">Rank</TableHead>
+                <TableHead className="h-16 px-6 text-white uppercase text-[9px] tracking-widest text-left">Carrera Profesional</TableHead>
+                <TableHead className="h-16 px-6 text-white uppercase text-[9px] tracking-widest text-center">% Mujeres</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {careersData.map((item) => (
-                <TableRow key={item.rank} className="hover:bg-stone-50 border-b border-stone-100 transition-colors">
-                  <TableCell className="font-black text-slate-300 px-12 py-8 text-2xl text-center">{item.rank}</TableCell>
-                  <TableCell className="font-bold text-slate-900 px-12 py-8 text-lg text-left">{item.career}</TableCell>
-                  <TableCell className="px-12 py-8 text-center">
-                    <span className={`px-6 py-2 rounded-full text-[12px] font-black ${parseInt(item.womenPercent) < 20 ? "bg-amber-50 text-[#ca8a04]" : "bg-teal-50 text-[#0f766e]"}`}>
+                <TableRow key={item.rank} className="border-b border-stone-50">
+                  <TableCell className="font-black text-slate-300 px-6 py-6 text-xl text-center">{item.rank}</TableCell>
+                  <TableCell className="font-bold text-slate-900 px-6 py-6 text-sm md:text-base text-left">{item.career}</TableCell>
+                  <TableCell className="px-6 py-6 text-center">
+                    <span className={`px-4 py-1 rounded-full text-[10px] font-black ${parseInt(item.womenPercent) < 20 ? "bg-amber-50 text-[#ca8a04]" : "bg-teal-50 text-[#0f766e]"}`}>
                       {item.womenPercent}
                     </span>
                   </TableCell>
@@ -320,11 +307,10 @@ export default function Dashboard() {
       </main>
 
       {/* FOOTER */}
-      <footer className="bg-[#0f766e] py-16 text-center border-t border-white/10 mt-10">
-        <div className="max-w-7xl mx-auto px-8">
-          <p className="text-white text-[14px] font-black uppercase tracking-[0.4em] mb-4">Universidad Politécnica de Puebla</p>
-          <div className="h-px w-20 bg-[#ca8a04] mx-auto mb-6 opacity-60" />
-          <p className="text-teal-100/60 text-[11px] font-bold tracking-widest uppercase">2026 • DAT4CCIÓN</p>
+      <footer className="bg-[#0f766e] py-10 md:py-16 text-center border-t border-white/10">
+        <div className="max-w-7xl mx-auto px-6">
+          <p className="text-white text-[12px] md:text-[14px] font-black uppercase tracking-[0.3em] mb-4">Universidad Politécnica de Puebla</p>
+          <p className="text-teal-100/60 text-[9px] md:text-[11px] font-bold tracking-widest uppercase">2026 • DAT4CCIÓN</p>
         </div>
       </footer>
     </div>
